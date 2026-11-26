@@ -1285,6 +1285,287 @@
       .bj-again-btn:active { transform: translateY(3px); }
       .bj-again-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }
 
+      /* ---------- Gambling Stats bar (on Gambling Games screen) ---------- */
+      .gstats-bar {
+        margin: 0.9rem auto 0;
+        width: min(94vw, 660px);
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 0.6rem 0.85rem;
+        background: rgba(12, 7, 2, 0.55);
+        border: 2px solid #f0cd6a;
+        border-radius: 16px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 226, 150, 0.35),
+          0 8px 18px rgba(0, 0, 0, 0.35);
+      }
+      .gstats-item {
+        flex: 1 1 0;
+        min-width: 5.6rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.1rem;
+      }
+      .gstats-label {
+        font-size: 0.66rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        color: #f5d67b;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+      }
+      .gstats-val {
+        font-size: clamp(1.05rem, 4.6vw, 1.35rem);
+        font-weight: 900;
+        color: #fff6dd;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.15;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+        white-space: nowrap;
+      }
+      .gstats-val.won, .gstats-val.net-pos { color: #4ade80; }
+      .gstats-val.lost, .gstats-val.net-neg { color: #f87171; }
+
+      /* ---------- Plinko game card (on Gambling Games screen) ---------- */
+      .plinko-card {
+        appearance: none;
+        font: inherit;
+        width: min(76vw, 300px);
+        padding: 1.3rem 1.2rem 1.4rem;
+        border-radius: 22px;
+        border: 4px solid #141038;
+        outline: 3px solid #f0cd6a;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(165, 160, 255, 0.4) 0%, rgba(165, 160, 255, 0) 55%),
+          linear-gradient(180deg, #2c2a6e 0%, #1d1b4b 55%, #12102f 100%);
+        box-shadow:
+          0 10px 0 rgba(10, 6, 30, 0.55),
+          0 22px 38px rgba(0, 0, 0, 0.45),
+          inset 0 2px 0 rgba(210, 208, 255, 0.45);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.7rem;
+        text-align: center;
+        transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+      }
+      .plinko-card:hover {
+        filter: brightness(1.1);
+        transform: translateY(-3px);
+        box-shadow:
+          0 13px 0 rgba(10, 6, 30, 0.55),
+          0 28px 42px rgba(0, 0, 0, 0.45),
+          inset 0 2px 0 rgba(210, 208, 255, 0.45);
+      }
+      .plinko-card:active {
+        transform: translateY(3px) scale(0.98);
+        box-shadow:
+          0 4px 0 rgba(10, 6, 30, 0.55),
+          0 10px 18px rgba(0, 0, 0, 0.45),
+          inset 0 2px 0 rgba(210, 208, 255, 0.35);
+      }
+      .plinko-card:focus-visible {
+        outline: 3px solid #ffffff;
+        outline-offset: 4px;
+      }
+      .plinko-icon {
+        width: 88px;
+        height: 88px;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 0 10px rgba(165, 160, 255, 0.55));
+      }
+      .plinko-card-label {
+        font-size: 2.1rem;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        color: #ffffff;
+        line-height: 1;
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.55), 0 0 18px rgba(240, 205, 106, 0.45);
+      }
+      .plinko-card-sub {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #c7c5ff;
+      }
+
+      /* ---------- Plinko game screen ---------- */
+      .pl-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 35;
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+        opacity: 0;
+        transition: opacity 0.22s ease;
+      }
+      .pl-overlay[hidden] { display: none; }
+      .pl-overlay.open { opacity: 1; }
+      .pl-panel {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: max(1.2rem, env(safe-area-inset-top)) 1.25rem 6rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background:
+          radial-gradient(ellipse 90% 50% at 50% 0%, rgba(109, 106, 214, 0.35) 0%, rgba(109, 106, 214, 0) 60%),
+          radial-gradient(ellipse 85% 62% at 50% 36%, #26245e 0%, #17163e 48%, #0e0c28 78%, #08071a 100%);
+        color: #eef0ff;
+      }
+      .pl-panel > .back-btn { position: absolute; z-index: 2; }
+      .pl-panel > .pl-result { position: absolute; z-index: 5; }
+      .pl-title {
+        margin: 0.7rem 0 0.2rem;
+        font-size: clamp(2.2rem, 9vw, 3.4rem);
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        line-height: 1.05;
+        color: #ffffff;
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.5), 0 0 24px rgba(165, 160, 255, 0.65);
+      }
+      .pl-board-wrap {
+        margin-top: 0.7rem;
+        width: min(94vw, 520px);
+      }
+      #plCanvas {
+        display: block;
+        width: 100%;
+        border-radius: 18px;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 30%, rgba(80, 78, 180, 0.35) 0%, rgba(80, 78, 180, 0) 70%),
+          rgba(4, 3, 16, 0.55);
+        border: 2px solid rgba(240, 205, 106, 0.55);
+        box-shadow:
+          inset 0 0 34px rgba(0, 0, 0, 0.55),
+          0 14px 30px rgba(0, 0, 0, 0.45);
+      }
+      .pl-message {
+        margin: 0.8rem 0 0;
+        min-height: 1.6em;
+        max-width: 560px;
+        font-size: 1.08rem;
+        font-weight: 800;
+        color: #fef9c3;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+      }
+      .pl-risk-row {
+        margin-top: 0.7rem;
+        display: flex;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .pl-risk-label {
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        font-size: 0.85rem;
+        color: #c7c5ff;
+      }
+      .pl-risk-btn {
+        appearance: none;
+        font: inherit;
+        font-weight: 900;
+        font-size: 1rem;
+        padding: 0.5rem 1.15rem;
+        min-height: 2rem;
+        border-radius: 999px;
+        border: 3px solid #3b3880;
+        background: linear-gradient(180deg, #232150 0%, #14122f 100%);
+        color: #c7c5ff;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #0a0920, 0 8px 14px rgba(0, 0, 0, 0.35);
+        transition: transform 0.1s ease, filter 0.1s ease;
+      }
+      .pl-risk-btn:hover { filter: brightness(1.2); }
+      .pl-risk-btn:active { transform: translateY(2px); }
+      .pl-risk-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }
+      .pl-risk-btn.selected {
+        background: linear-gradient(180deg, #ffd60a 0%, #d99406 100%);
+        border-color: #7c4a12;
+        color: #3a2205;
+        box-shadow: 0 4px 0 #7c4a12, 0 0 18px rgba(255, 214, 10, 0.5);
+      }
+      .pl-risk-btn[disabled] { opacity: 0.55; cursor: default; }
+      .pl-bet { margin-top: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+      .pl-bet label { font-weight: 900; font-size: 1.05rem; letter-spacing: 0.04em; color: #d9d7ff; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+      #plBetInput {
+        font: inherit;
+        font-size: 1.4rem;
+        font-weight: 900;
+        width: 9.5rem;
+        text-align: center;
+        padding: 0.5rem 0.6rem;
+        border-radius: 12px;
+        border: 3px solid #141038;
+        background: #f2f1ff;
+        color: #171338;
+        user-select: text;
+        -webkit-user-select: text;
+        font-variant-numeric: tabular-nums;
+      }
+      #plBetInput:focus-visible { outline: 3px solid #ffd60a; outline-offset: 2px; }
+      #plBetInput[disabled] { opacity: 0.6; }
+      #plBetInput.shake { animation: cfShake 0.35s ease; }
+      .pl-quick { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+      .pl-quick-btn {
+        appearance: none;
+        font: inherit;
+        font-weight: 900;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        min-height: 2rem;
+        border-radius: 999px;
+        border: 3px solid #141038;
+        background: linear-gradient(180deg, #facc15 0%, #d99406 100%);
+        color: #3a2205;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #141038, 0 8px 14px rgba(0, 0, 0, 0.35);
+        transition: transform 0.1s ease, filter 0.1s ease;
+      }
+      .pl-quick-btn:hover { filter: brightness(1.1); }
+      .pl-quick-btn:active { transform: translateY(2px); }
+      .pl-quick-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }
+      .pl-quick-btn[disabled] { opacity: 0.55; cursor: default; }
+      .pl-error { min-height: 1.4em; margin: 0.45rem 0 0; font-weight: 800; color: #fca5a5; font-size: 1rem; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); }
+      .pl-result {
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%) scale(0.7);
+        width: min(88vw, 430px);
+        padding: 1.4rem 1.2rem;
+        border-radius: 22px;
+        text-align: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .pl-result[hidden] { display: none; }
+      .pl-result.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      .pl-result.win { background: linear-gradient(180deg, #2f9e44 0%, #237032 100%); border: 4px solid #ffd60a; color: #ffffff; box-shadow: 0 0 44px rgba(255, 214, 10, 0.8), 0 24px 50px rgba(0, 0, 0, 0.45); }
+      /* Full-screen gold flash on a huge Plinko hit (10x+ slot). */
+      .plinko-flash {
+        position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0;
+        background: radial-gradient(ellipse at center, rgba(255, 214, 10, 0.55) 0%, rgba(255, 158, 0, 0.42) 45%, rgba(124, 45, 18, 0.25) 75%, rgba(0, 0, 0, 0) 100%);
+      }
+      .plinko-flash.show { animation: plinkoFlashAnim 1.5s ease-out; }
+      @keyframes plinkoFlashAnim {
+        0% { opacity: 0; } 12% { opacity: 1; } 30% { opacity: 0.35; }
+        48% { opacity: 0.95; } 100% { opacity: 0; }
+      }
+
       /* ---------- Gambling loss punishment (flash / shake / jumpscare / bankrupt) ---------- */
       .loss-flash {
         position: fixed;
@@ -3083,7 +3364,8 @@
         .card-coin, .coinflip-panel::before, .cf-coin-toss.tossing { animation: none; }
         .coinflip-overlay, .cf-coin, .cf-result { transition: none; }
         .bj-overlay, .bj-result, .bankrupt-overlay { transition: none; }
-        .pcard, .jumpscare-img, .jumpscare-text, .bankrupt-img, .violent-shake, .loss-flash.show, .mythical-flash.show, .alien-flash.show, .silver-flash.show, .glitch-flash.show, .frost-flash.show, .swamp-flash.show { animation: none; }
+        .pl-overlay, .pl-result { transition: none; }
+        .pcard, .jumpscare-img, .jumpscare-text, .bankrupt-img, .violent-shake, .loss-flash.show, .mythical-flash.show, .alien-flash.show, .silver-flash.show, .glitch-flash.show, .frost-flash.show, .swamp-flash.show, .plinko-flash.show { animation: none; }
         .shop-overlay, .shop-panel, .skins-overlay, .odds-overlay, .odds-panel, .crate-overlay, .crate-box.spinning, .crate-reveal, .offline-overlay, .crate-qty-overlay, .crate-qty-panel, .crate-multi-overlay { transition: none; animation: none; }
         .roulette-strip { transition: none !important; }
         .crate-icon { animation: none; }
@@ -3215,6 +3497,7 @@
               </div>
             </div>
           </section>
+          <button class="shop-skins-btn" id="openSkinsBtn" type="button">🎨 Skins — Equipped / Inventory</button>
           <section class="shop-section" aria-labelledby="clickUpgradesTitle">
             <h3 class="shop-section-title" id="clickUpgradesTitle">👆 Click Power — Per Tap</h3>
             <p class="shop-section-sub">These boost how many Tungs EVERY tap / click earns. Prices rise 15% each time you buy one.</p>
@@ -3349,8 +3632,6 @@
               <button class="shop-buy-btn" id="buyGalacticFactoryBtn" type="button">Buy — 500,000 Tungs</button>
             </div>
           </section>
-          
-          <button class="shop-skins-btn" id="openSkinsBtn" type="button">🎨 Skins — Equipped / Inventory</button>
           <p class="shop-error" id="shopError" role="alert"></p>
         </div>
         <button class="back-btn" id="shopBack" type="button">&larr; Back</button>
@@ -3711,6 +3992,20 @@
     <div class="gamble-overlay" id="gambleOverlay" hidden>
       <div class="gamble-panel" role="dialog" aria-modal="true" aria-labelledby="gambleTitle">
         <h2 class="gamble-title" id="gambleTitle">GAMBLING GAMES!</h2>
+        <div class="gstats-bar" id="gstatsBar" aria-label="Your gambling statistics">
+          <div class="gstats-item">
+            <span class="gstats-label">TOTAL WON</span>
+            <span class="gstats-val won" id="gstatsWon">0</span>
+          </div>
+          <div class="gstats-item">
+            <span class="gstats-label">TOTAL LOST</span>
+            <span class="gstats-val lost" id="gstatsLost">0</span>
+          </div>
+          <div class="gstats-item">
+            <span class="gstats-label">NET PROFIT</span>
+            <span class="gstats-val" id="gstatsNet">0</span>
+          </div>
+        </div>
         <div class="gamble-body">
           <button class="coinflip-card" id="coinflipCard" type="button" aria-haspopup="dialog">
             <span class="card-coin" aria-hidden="true">T</span>
@@ -3724,6 +4019,28 @@
             </span>
             <span class="blackjack-card-label">BLACKJACK</span>
             <span class="blackjack-card-sub">Beat the dealer — Blackjack pays 3:2!</span>
+          </button>
+          <button class="plinko-card" id="plinkoCard" type="button" aria-haspopup="dialog">
+            <span class="plinko-icon" aria-hidden="true">
+              <svg viewBox="0 0 88 88" width="88" height="88" focusable="false">
+                <circle cx="44" cy="7" r="6" fill="#ffd60a" stroke="#b97e0c" stroke-width="2"/>
+                <g fill="#dcd9ff">
+                  <circle cx="32" cy="24" r="3.4"/><circle cx="44" cy="24" r="3.4"/><circle cx="56" cy="24" r="3.4"/>
+                  <circle cx="26" cy="38" r="3.4"/><circle cx="38" cy="38" r="3.4"/><circle cx="50" cy="38" r="3.4"/><circle cx="62" cy="38" r="3.4"/>
+                  <circle cx="20" cy="52" r="3.4"/><circle cx="32" cy="52" r="3.4"/><circle cx="44" cy="52" r="3.4"/><circle cx="56" cy="52" r="3.4"/><circle cx="68" cy="52" r="3.4"/>
+                  <circle cx="14" cy="66" r="3.4"/><circle cx="26" cy="66" r="3.4"/><circle cx="38" cy="66" r="3.4"/><circle cx="50" cy="66" r="3.4"/><circle cx="62" cy="66" r="3.4"/><circle cx="74" cy="66" r="3.4"/>
+                </g>
+                <g>
+                  <rect x="6" y="76" width="11" height="8" rx="2" fill="#ffd60a"/>
+                  <rect x="20" y="76" width="11" height="8" rx="2" fill="#ffb700"/>
+                  <rect x="34" y="76" width="11" height="8" rx="2" fill="#b3261e"/>
+                  <rect x="48" y="76" width="11" height="8" rx="2" fill="#ffb700"/>
+                  <rect x="62" y="76" width="11" height="8" rx="2" fill="#ffd60a"/>
+                </g>
+              </svg>
+            </span>
+            <span class="plinko-card-label">PLINKO</span>
+            <span class="plinko-card-sub">Drop the ball — edge slots pay up to 170x!</span>
           </button>
         </div>
         <button class="back-btn" id="gambleBack" type="button">&larr; Back</button>
@@ -3832,6 +4149,46 @@
           <div class="cf-result-big" id="bjResultBig"></div>
           <div class="cf-result-sub" id="bjResultSub"></div>
           <button class="bj-again-btn" id="bjAgainBtn" type="button">PLAY AGAIN</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pl-overlay" id="plinkoOverlay" hidden>
+      <div class="pl-panel" role="dialog" aria-modal="true" aria-labelledby="plinkoTitle">
+        <div class="cf-balance" id="plBalance">Tungs: 0</div>
+        <h2 class="pl-title" id="plinkoTitle">PLINKO</h2>
+
+        <div class="pl-board-wrap" id="plBoardWrap">
+          <canvas id="plCanvas" width="520" height="540" aria-label="Plinko peg board"></canvas>
+        </div>
+
+        <p class="pl-message" id="plMessage">Set your bet, pick a risk level, and drop the ball!</p>
+
+        <div class="pl-risk-row" role="group" aria-label="Risk level">
+          <span class="pl-risk-label">RISK</span>
+          <button class="pl-risk-btn selected" id="plRiskLow" type="button" data-risk="low" aria-pressed="true">Low</button>
+          <button class="pl-risk-btn" id="plRiskMedium" type="button" data-risk="medium" aria-pressed="false">Medium</button>
+          <button class="pl-risk-btn" id="plRiskHigh" type="button" data-risk="high" aria-pressed="false">High</button>
+        </div>
+
+        <div class="pl-bet">
+          <label for="plBetInput">Your Bet (Tungs)
+            <input id="plBetInput" type="number" inputmode="numeric" min="1" step="1" value="10" />
+          </label>
+          <div class="pl-quick">
+            <button class="pl-quick-btn" type="button" data-bet="half">1/2</button>
+            <button class="pl-quick-btn" type="button" data-bet="double">2x</button>
+            <button class="pl-quick-btn" type="button" data-bet="max">Max</button>
+          </div>
+        </div>
+        <p class="pl-error" id="plError" role="alert"></p>
+
+        <button class="cf-flip-btn" id="plDropBtn" type="button">DROP BALL!</button>
+        <button class="back-btn" id="plinkoBack" type="button">&larr; Back</button>
+
+        <div class="pl-result" id="plResult" hidden>
+          <div class="cf-result-big" id="plResultBig"></div>
+          <div class="cf-result-sub" id="plResultSub"></div>
         </div>
       </div>
     </div>
@@ -4102,6 +4459,8 @@
 
     <div class="swamp-flash" id="swampFlash" aria-hidden="true"></div>
 
+    <div class="plinko-flash" id="plinkoFlash" aria-hidden="true"></div>
+
     <div class="jumpscare" id="jumpscare" hidden role="alertdialog" aria-label="Tung Tung took your Tungs">
       <img class="jumpscare-img" src="data:image/webp;base64,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" alt="Evil Tung Tung jumpscare — a red horned Tung Tung with glowing red eyes" draggable="false" />
       <div class="jumpscare-text" id="jumpscareText">TUNG TUNG TOOK YOUR TUNGS!</div>
@@ -4171,6 +4530,12 @@
         // rest of the state is saved and published to the leaderboard
         // row so player profiles can show it.
         var totalClicks = 0;
+        // Lifetime gambling profit/loss across Coin Flip, Blackjack
+        // and Plinko — net-profit accounting (see recordGamblingResult).
+        // Saved everywhere the rest of the state is saved, including
+        // the Firebase cloud snapshot.
+        var gamblingWon = 0;
+        var gamblingLost = 0;
         var tpsEl = document.getElementById('tpsDisplay');
         var shopBalanceEl = document.getElementById('shopBalance');
         var shopTpsEl = document.getElementById('shopTps');
@@ -4585,6 +4950,8 @@
             unlockedSkins: unlockedSkins.slice(),
             equippedSkin: equippedSkin,
             totalClicks: totalClicks,
+            gamblingWon: gamblingWon,
+            gamblingLost: gamblingLost,
             playerId: identityReady ? playerId : restoredPlayerId,
             playerName: identityReady ? playerName : restoredName,
             badge: identityReady ? myBadge : restoredBadge,
@@ -4669,6 +5036,10 @@
           }
           var sTc = Math.floor(Number(parsed.totalClicks));
           if (isFinite(sTc) && sTc >= 0) totalClicks = sTc;
+          var sGw = Math.floor(Number(parsed.gamblingWon));
+          if (isFinite(sGw) && sGw >= 0) gamblingWon = sGw;
+          var sGl = Math.floor(Number(parsed.gamblingLost));
+          if (isFinite(sGl) && sGl >= 0) gamblingLost = sGl;
           if (VALID_SKINS.indexOf(parsed.equippedSkin) !== -1) equippedSkin = parsed.equippedSkin;
           if (unlockedSkins.indexOf(equippedSkin) === -1) equippedSkin = 'classic';
           // Identity carried in the durable save (see currentSaveData):
@@ -4863,6 +5234,7 @@
         function openGamble() {
           // Swap panels: fade the main Menu out, then pop Gambling in.
           hideOverlay(overlay, function () { showOverlay(gambleOverlay); });
+          renderGamblingStats();
           gambleBackBtn.focus();
         }
 
@@ -5449,6 +5821,45 @@
         }
         if (crateMultiDoneBtn) crateMultiDoneBtn.addEventListener('click', function () { hideOverlay(crateMultiOverlay); });
 
+        // ---------- Gambling Stats (Coin Flip + Blackjack + Plinko) ----------
+        // Exact net-profit accounting: on any settled bet,
+        // profit = payout - bet. A positive profit is added to Total
+        // Won, a negative one to Total Lost, and a push (profit 0)
+        // adds nothing to either — so Net always equals true profit.
+        function recordGamblingResult(bet, payout) {
+          var profit = Math.floor(Number(payout) || 0) - Math.floor(Number(bet) || 0);
+          if (profit > 0) gamblingWon += profit;
+          else if (profit < 0) gamblingLost += -profit;
+          renderGamblingStats();
+        }
+
+        // Clean stat formatting: commas for everyday numbers,
+        // K / M / B abbreviations once they get huge.
+        function fmtGambleStat(n) {
+          var v = Math.floor(Math.abs(Number(n) || 0));
+          var sign = n < 0 ? '-' : '';
+          function trim(x) { return (Math.round(x * 100) / 100).toString(); }
+          if (v >= 1000000000) return sign + trim(v / 1000000000) + 'B';
+          if (v >= 1000000) return sign + trim(v / 1000000) + 'M';
+          if (v >= 10000) return sign + trim(v / 1000) + 'K';
+          return sign + v.toLocaleString('en-US');
+        }
+
+        function renderGamblingStats() {
+          var wonEl = document.getElementById('gstatsWon');
+          var lostEl = document.getElementById('gstatsLost');
+          var netEl = document.getElementById('gstatsNet');
+          if (wonEl) wonEl.textContent = fmtGambleStat(gamblingWon);
+          if (lostEl) lostEl.textContent = fmtGambleStat(gamblingLost);
+          if (netEl) {
+            var net = gamblingWon - gamblingLost;
+            netEl.textContent = (net > 0 ? '+' : '') + fmtGambleStat(net);
+            netEl.classList.toggle('net-pos', net > 0);
+            netEl.classList.toggle('net-neg', net < 0);
+          }
+        }
+        renderGamblingStats();
+
         // ---------- Coin Flip game ----------
         var coinflipOverlay = document.getElementById('coinflipOverlay');
         var coinflipCard = document.getElementById('coinflipCard');
@@ -5632,12 +6043,14 @@
             if (result === cfPick) {
               var payout = bet * 2;
               tungs += payout;
+              recordGamblingResult(bet, payout);
               renderTungs();
               cfLanded.textContent = 'It landed on ' + landedLabel + ' — you called it!';
               showCfResult(true, 'YOU WON +' + payout + ' TUNGS!', 'It landed on ' + landedLabel + '! Bet again?');
             } else {
               cfLanded.textContent = 'It landed on ' + landedLabel + ' — tough luck!';
               showCfResult(false, 'YOU LOST!', 'It landed on ' + landedLabel + '. Bet again!');
+              recordGamblingResult(bet, 0);
               onGambleLoss(bet);
             }
             // Coin Flip finished — save the new balance right away.
@@ -5713,7 +6126,7 @@
           void lossFlash.offsetWidth;
           lossFlash.classList.add('show');
           // Violent screen shake on whichever screen is up.
-          var targets = document.querySelectorAll('main, .coinflip-panel, .bj-panel, .gamble-panel');
+          var targets = document.querySelectorAll('main, .coinflip-panel, .bj-panel, .pl-panel, .gamble-panel');
           for (var i = 0; i < targets.length; i++) {
             targets[i].classList.remove('violent-shake');
             void targets[i].offsetWidth;
@@ -5920,6 +6333,7 @@
         function bjResolveBlackjack() {
           var credit = Math.round(bjWager * 2.5);
           tungs += credit;
+          recordGamblingResult(bjWager, credit);
           bjRender();
           bjMessage.textContent = 'Blackjack! The table goes wild!';
           bjShowResult('win', 'BLACKJACK!', 'Natural 21 pays 3:2 — you won +' + (credit - bjWager) + ' Tungs!');
@@ -5927,18 +6341,21 @@
         }
         function bjResolveWin(sub, big) {
           tungs += bjWager * 2;
+          recordGamblingResult(bjWager, bjWager * 2);
           bjRender();
           bjShowResult('win', big || ('YOU WON +' + bjWager + ' TUNGS!'), sub);
           bjFinishHand();
         }
         function bjResolvePush() {
           tungs += bjWager;
+          recordGamblingResult(bjWager, bjWager); // push — profit 0, stats unchanged
           bjRender();
           bjMessage.textContent = 'Push — your bet was refunded.';
           bjShowResult('push', 'PUSH (TIE)', 'Nobody wins — your ' + bjWager + ' Tung bet is back in your pile.');
           bjFinishHand();
         }
         function bjResolveLoss(big, sub) {
+          recordGamblingResult(bjWager, 0);
           bjRender();
           bjShowResult('lose', big, sub);
           bjFinishHand();
@@ -6089,6 +6506,467 @@
         }
         blackjackCard.addEventListener('click', openBlackjack);
         blackjackBackBtn.addEventListener('click', backFromBlackjack);
+
+        // ---------- Plinko game ----------
+        var plinkoOverlay = document.getElementById('plinkoOverlay');
+        var plinkoCard = document.getElementById('plinkoCard');
+        var plinkoBackBtn = document.getElementById('plinkoBack');
+        var plBalanceEl = document.getElementById('plBalance');
+        var plBoardWrap = document.getElementById('plBoardWrap');
+        var plCanvas = document.getElementById('plCanvas');
+        var plCtx = plCanvas ? plCanvas.getContext('2d') : null;
+        var plBetInput = document.getElementById('plBetInput');
+        var plError = document.getElementById('plError');
+        var plMessage = document.getElementById('plMessage');
+        var plDropBtn = document.getElementById('plDropBtn');
+        var plResult = document.getElementById('plResult');
+        var plResultBig = document.getElementById('plResultBig');
+        var plResultSub = document.getElementById('plResultSub');
+        var plinkoFlash = document.getElementById('plinkoFlash');
+        var plQuickBtns = document.querySelectorAll('.pl-quick-btn');
+        var plRiskBtns = document.querySelectorAll('.pl-risk-btn');
+
+        // 12 rows of pegs, 13 multiplier buckets. Each drop takes a
+        // true Galton-board path — at every row the ball bounces
+        // left or right on a fair coin flip, so the landing slot is
+        // binomially distributed: the center slots are hit constantly
+        // and pay small/safe, the far edges are rare and pay big.
+        // These tables are tuned to that distribution (~99% payback).
+        var PL_ROWS = 12;
+        var PL_MULTS = {
+          low:    [10, 3, 1.6, 1.4, 1.1, 1, 0.5, 1, 1.1, 1.4, 1.6, 3, 10],
+          medium: [33, 11, 4, 2, 1.1, 0.6, 0.3, 0.6, 1.1, 2, 4, 11, 33],
+          high:   [170, 24, 8.1, 2, 0.7, 0.2, 0.2, 0.2, 0.7, 2, 8.1, 24, 170]
+        };
+        var PL_MAX_BALLS = 6;
+        var plRisk = 'low';
+        var plPegs = [];
+        var plBalls = [];
+        var plW = 0, plH = 0, plDx = 0, plDy = 0, plTop = 0;
+        var plBucketTop = 0, plBucketH = 0, plPegR = 3, plBallR = 7;
+        var plFlashSlot = -1, plFlashUntil = 0;
+        var plRaf = null, plLastTs = 0, plAcc = 0, plLastTickSnd = 0;
+        var plResultTimer = null, plinkoFlashTimer = null;
+        var plAudioCtx = null;
+
+        function plSyncBalance() { if (plBalanceEl) plBalanceEl.textContent = 'Tungs: ' + tungs; }
+        function plRender() { renderTungs(); plSyncBalance(); }
+        function plFmtMult(m) { return (Math.round(m * 10) / 10) + 'x'; }
+
+        function plLayout() {
+          plDx = (plW * 0.94) / (PL_ROWS + 1);
+          plTop = plH * 0.075;
+          plDy = (plH * 0.70) / PL_ROWS;
+          plBucketH = Math.max(30, plH * 0.115);
+          plBucketTop = plH - plBucketH - plH * 0.02;
+          plPegR = Math.max(2.5, plDx * 0.10);
+          plBallR = Math.max(5, plDx * 0.30);
+          plPegs = [];
+          for (var r = 0; r < PL_ROWS; r++) {
+            var count = r + 3;
+            var y = plTop + r * plDy;
+            for (var i = 0; i < count; i++) {
+              plPegs.push({ x: plW / 2 + (i - (count - 1) / 2) * plDx, y: y, glow: 0 });
+            }
+          }
+        }
+
+        function plResize() {
+          if (!plBoardWrap || !plCanvas) return;
+          var w = plBoardWrap.clientWidth;
+          if (!w) return;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          var h = Math.round(w * 1.04);
+          plCanvas.style.height = h + 'px';
+          plCanvas.width = Math.round(w * dpr);
+          plCanvas.height = Math.round(h * dpr);
+          if (plCtx) plCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          plW = w; plH = h;
+          plLayout();
+          if (plinkoOverlay.hidden) plDraw(0);
+        }
+        window.addEventListener('resize', function () { if (!plinkoOverlay.hidden) plResize(); });
+
+        function plBucketColor(m) {
+          if (m >= 100) return '#e879f9';
+          if (m >= 10) return '#ffd60a';
+          if (m >= 3) return '#ffb700';
+          if (m >= 1.4) return '#34c759';
+          if (m >= 1) return '#2f9e44';
+          if (m >= 0.5) return '#a0682f';
+          return '#b3261e';
+        }
+
+        function plRoundRect(x, y, w, h, r) {
+          plCtx.beginPath();
+          plCtx.moveTo(x + r, y);
+          plCtx.arcTo(x + w, y, x + w, y + h, r);
+          plCtx.arcTo(x + w, y + h, x, y + h, r);
+          plCtx.arcTo(x, y + h, x, y, r);
+          plCtx.arcTo(x, y, x + w, y, r);
+          plCtx.closePath();
+        }
+
+        function plDraw(now) {
+          if (!plCtx || !plW) return;
+          plCtx.clearRect(0, 0, plW, plH);
+          // Multiplier buckets across the bottom (labels follow the
+          // CURRENT risk mode; balls in flight keep their snapshot).
+          var mults = PL_MULTS[plRisk];
+          var slotW = plW / mults.length;
+          for (var i = 0; i < mults.length; i++) {
+            var bx = i * slotW;
+            var flashing = (i === plFlashSlot && now < plFlashUntil);
+            plCtx.fillStyle = plBucketColor(mults[i]);
+            plCtx.globalAlpha = flashing ? 1 : 0.82;
+            plRoundRect(bx + 1.5, plBucketTop + (flashing ? -3 : 0), slotW - 3, plBucketH, 6);
+            plCtx.fill();
+            if (flashing) {
+              plCtx.globalAlpha = 0.55;
+              plCtx.fillStyle = '#ffffff';
+              plRoundRect(bx + 1.5, plBucketTop - 3, slotW - 3, plBucketH, 6);
+              plCtx.fill();
+            }
+            plCtx.globalAlpha = 1;
+            plCtx.fillStyle = mults[i] >= 1 ? '#231303' : '#ffe9e9';
+            plCtx.font = '900 ' + Math.max(9, Math.min(15, slotW * 0.34)) + 'px system-ui, sans-serif';
+            plCtx.textAlign = 'center';
+            plCtx.textBaseline = 'middle';
+            plCtx.fillText(plFmtMult(mults[i]), bx + slotW / 2, plBucketTop + (flashing ? -3 : 0) + plBucketH / 2 + 1);
+          }
+          // Pegs — a hit peg flares gold and fades back to silver-blue.
+          for (var p = 0; p < plPegs.length; p++) {
+            var peg = plPegs[p];
+            if (peg.glow > 0.02) {
+              plCtx.beginPath();
+              plCtx.fillStyle = 'rgba(255, 214, 10, ' + (peg.glow * 0.5) + ')';
+              plCtx.arc(peg.x, peg.y, plPegR * (1.6 + peg.glow * 1.8), 0, Math.PI * 2);
+              plCtx.fill();
+            }
+            plCtx.beginPath();
+            plCtx.fillStyle = peg.glow > 0.02 ? '#ffe97a' : '#c3c9f2';
+            plCtx.arc(peg.x, peg.y, plPegR * (1 + peg.glow * 0.5), 0, Math.PI * 2);
+            plCtx.fill();
+          }
+          // Balls.
+          for (var b = 0; b < plBalls.length; b++) {
+            var ball = plBalls[b];
+            var grad = plCtx.createRadialGradient(ball.x - plBallR * 0.35, ball.y - plBallR * 0.35, plBallR * 0.15, ball.x, ball.y, plBallR);
+            grad.addColorStop(0, '#fff3b0');
+            grad.addColorStop(0.55, '#ffd60a');
+            grad.addColorStop(1, '#d99406');
+            plCtx.beginPath();
+            plCtx.fillStyle = grad;
+            plCtx.arc(ball.x, ball.y, plBallR, 0, Math.PI * 2);
+            plCtx.fill();
+            plCtx.lineWidth = 1.6;
+            plCtx.strokeStyle = '#7c4a12';
+            plCtx.stroke();
+          }
+        }
+
+        // Soft tick when a ball clips a peg (throttled — pegs get hit
+        // a LOT), and a rising arpeggio for winning drops. Synthesized,
+        // no audio files, same pattern as the loss sound.
+        function plTickSound() {
+          var nowMs = performance.now();
+          if (nowMs - plLastTickSnd < 55) return;
+          plLastTickSnd = nowMs;
+          try {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            if (!plAudioCtx) plAudioCtx = new AC();
+            if (plAudioCtx.state === 'suspended') plAudioCtx.resume();
+            var t = plAudioCtx.currentTime;
+            var osc = plAudioCtx.createOscillator();
+            var gain = plAudioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(1400 + Math.random() * 700, t);
+            gain.gain.setValueAtTime(0.022, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.035);
+            osc.connect(gain); gain.connect(plAudioCtx.destination);
+            osc.start(t); osc.stop(t + 0.04);
+          } catch (e) { /* Sound is a bonus — never let it break the game. */ }
+        }
+        function playPlinkoWinSound(big) {
+          try {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            if (!plAudioCtx) plAudioCtx = new AC();
+            if (plAudioCtx.state === 'suspended') plAudioCtx.resume();
+            var ctx = plAudioCtx;
+            var t0 = ctx.currentTime;
+            var notes = big ? [523.25, 659.25, 783.99, 1046.5, 1318.5] : [523.25, 659.25, 783.99];
+            notes.forEach(function (freq, idx) {
+              var osc = ctx.createOscillator();
+              var gain = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(freq, t0 + idx * 0.09);
+              gain.gain.setValueAtTime(0.0001, t0 + idx * 0.09);
+              gain.gain.exponentialRampToValueAtTime(0.16, t0 + idx * 0.09 + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.001, t0 + idx * 0.09 + 0.34);
+              osc.connect(gain); gain.connect(ctx.destination);
+              osc.start(t0 + idx * 0.09);
+              osc.stop(t0 + idx * 0.09 + 0.38);
+            });
+          } catch (e) { /* Sound is a bonus — never let it break the game. */ }
+        }
+
+        function triggerPlinkoCelebration() {
+          if (!plinkoFlash) return;
+          plinkoFlash.classList.remove('show');
+          void plinkoFlash.offsetWidth;
+          plinkoFlash.classList.add('show');
+          if (plinkoFlashTimer) clearTimeout(plinkoFlashTimer);
+          plinkoFlashTimer = setTimeout(function () { plinkoFlash.classList.remove('show'); }, 1550);
+        }
+
+        function plShowResult(big, sub) {
+          if (plResultTimer) { clearTimeout(plResultTimer); plResultTimer = null; }
+          plResultBig.textContent = big;
+          plResultSub.textContent = sub;
+          plResult.hidden = false;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { plResult.classList.add('show'); });
+          });
+          plResultTimer = setTimeout(function () {
+            plResult.classList.remove('show');
+            setTimeout(function () { plResult.hidden = true; }, 260);
+          }, 1700);
+        }
+        function plHideResult() {
+          if (plResultTimer) { clearTimeout(plResultTimer); plResultTimer = null; }
+          plResult.classList.remove('show');
+          plResult.hidden = true;
+        }
+
+        function plShowError(msg) {
+          plError.textContent = msg;
+          plBetInput.classList.remove('shake');
+          void plBetInput.offsetWidth; // reflow so the shake replays
+          plBetInput.classList.add('shake');
+        }
+        function plClearError() { plError.textContent = ''; }
+        plBetInput.addEventListener('input', plClearError);
+
+        // Quick bet buttons: 1/2 halves the typed bet, 2x doubles it,
+        // Max bets the whole balance.
+        for (var pq = 0; pq < plQuickBtns.length; pq++) {
+          plQuickBtns[pq].addEventListener('click', function () {
+            var kind = this.getAttribute('data-bet');
+            var cur = Math.floor(Number(plBetInput.value));
+            if (!isFinite(cur) || cur < 0) cur = 0;
+            var val;
+            if (kind === 'half') val = Math.max(1, Math.floor(cur / 2));
+            else if (kind === 'double') val = cur > 0 ? cur * 2 : 10;
+            else val = tungs; // max
+            plBetInput.value = val;
+            plClearError();
+          });
+        }
+
+        function plSetRisk(risk) {
+          plRisk = risk;
+          for (var i = 0; i < plRiskBtns.length; i++) {
+            var on = plRiskBtns[i].getAttribute('data-risk') === risk;
+            plRiskBtns[i].classList.toggle('selected', on);
+            plRiskBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+          }
+        }
+        for (var pr = 0; pr < plRiskBtns.length; pr++) {
+          plRiskBtns[pr].addEventListener('click', function () { plSetRisk(this.getAttribute('data-risk')); });
+        }
+
+        function plUpdateBackState() {
+          if (plinkoBackBtn) plinkoBackBtn.disabled = plBalls.length > 0;
+        }
+
+        function plSettle(ball, slot) {
+          var mult = ball.mults[slot];
+          var payout = Math.floor(ball.bet * mult);
+          plFlashSlot = slot;
+          plFlashUntil = performance.now() + 900;
+          tungs += payout;
+          recordGamblingResult(ball.bet, payout);
+          plRender();
+          if (mult >= 10) {
+            triggerPlinkoCelebration();
+            playPlinkoWinSound(true);
+            plShowResult('HUGE WIN! ' + plFmtMult(mult), 'You won +' + fmtNum(payout) + ' Tungs!');
+            plMessage.textContent = 'JACKPOT SLOT! ' + plFmtMult(mult) + ' — you won ' + fmtNum(payout) + ' Tungs!';
+          } else if (mult >= 3) {
+            playPlinkoWinSound(false);
+            plShowResult('BIG WIN! ' + plFmtMult(mult), 'You won +' + fmtNum(payout) + ' Tungs!');
+            plMessage.textContent = 'Nice drop! ' + plFmtMult(mult) + ' — you won ' + fmtNum(payout) + ' Tungs.';
+          } else if (mult > 1) {
+            playPlinkoWinSound(false);
+            plMessage.textContent = 'Landed on ' + plFmtMult(mult) + ' — you won ' + fmtNum(payout) + ' Tungs.';
+          } else if (mult === 1) {
+            plMessage.textContent = 'Landed on 1x — your ' + fmtNum(payout) + ' Tungs came right back.';
+          } else if (mult >= 0.5) {
+            plMessage.textContent = 'Landed on ' + plFmtMult(mult) + ' — only ' + fmtNum(payout) + ' Tungs back.';
+          } else {
+            // Heavy loss (under half the bet back) — same punishment
+            // as a Coin Flip / Blackjack loss: flash, shake, jumpscare.
+            plMessage.textContent = 'Ouch — ' + plFmtMult(mult) + ' slot. Only ' + fmtNum(payout) + ' Tungs back.';
+            onGambleLoss(ball.bet - payout);
+          }
+          saveNow();
+          plUpdateBackState();
+        }
+
+        // The ball's resting point after s rows: it sits in a gap of
+        // row s-1, offset from center by (rights - lefts) half-steps —
+        // which lands exactly on that row's gap positions.
+        function plWaypoint(ball, s) {
+          var rights = 0;
+          for (var i = 0; i < s; i++) if (ball.dirs[i] > 0) rights++;
+          return {
+            x: plW / 2 + (2 * rights - s) * (plDx / 2),
+            y: s === 0 ? plTop - plDy * 0.8 : (plTop + (s - 1) * plDy) + plPegR + plBallR * 0.5
+          };
+        }
+
+        function plBallPos(ball) {
+          if (ball.seg >= PL_ROWS) {
+            // Final fall: drop from below the last row into the
+            // winning bucket, easing sideways to the bucket's center.
+            var from = plWaypoint(ball, PL_ROWS);
+            var slotW = plW / ball.mults.length;
+            var tx = (ball.slot + 0.5) * slotW;
+            var ty = plBucketTop + plBucketH * 0.45;
+            var t = Math.min(1, ball.t);
+            return { x: from.x + (tx - from.x) * t, y: from.y + (ty - from.y) * (t * t) };
+          }
+          var a = plWaypoint(ball, ball.seg);
+          var b = plWaypoint(ball, ball.seg + 1);
+          var tt = Math.min(1, ball.t);
+          // x glides peg-to-peg; y accelerates downward with a small
+          // hop arc, so the ball reads as bouncing off each peg.
+          return {
+            x: a.x + (b.x - a.x) * tt,
+            y: a.y + (b.y - a.y) * (tt * tt) - Math.sin(tt * Math.PI) * plDy * 0.16
+          };
+        }
+
+        // Light up the peg the ball just bounced past.
+        function plGlowPegNear(x, y) {
+          var best = null, bestD = plDx * 1.1;
+          for (var i = 0; i < plPegs.length; i++) {
+            var dx = plPegs[i].x - x, dy = plPegs[i].y - y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < bestD) { bestD = d; best = plPegs[i]; }
+          }
+          if (best) best.glow = 1;
+        }
+
+        function plStep(dt) {
+          for (var bi = plBalls.length - 1; bi >= 0; bi--) {
+            var ball = plBalls[bi];
+            ball.t += dt / (ball.seg >= PL_ROWS ? 0.26 : 0.125);
+            if (ball.t >= 1) {
+              ball.t = 0;
+              ball.seg++;
+              if (ball.seg > PL_ROWS) {
+                plBalls.splice(bi, 1);
+                plSettle(ball, ball.slot);
+                continue;
+              }
+              var wp = plWaypoint(ball, ball.seg);
+              plGlowPegNear(wp.x, wp.y - plDy * 0.5);
+              plTickSound();
+            }
+            var pos = plBallPos(ball);
+            ball.x = pos.x;
+            ball.y = pos.y;
+          }
+          for (var gi = 0; gi < plPegs.length; gi++) {
+            if (plPegs[gi].glow > 0) plPegs[gi].glow = Math.max(0, plPegs[gi].glow - dt * 2.2);
+          }
+        }
+
+        function plLoop(ts) {
+          // The overlay fades in after openPlinko runs, so the board
+          // may not have had a measurable width yet — (re)size as soon
+          // as it does, and whenever the wrap's width changes.
+          if (plBoardWrap && plBoardWrap.clientWidth && Math.abs(plBoardWrap.clientWidth - plW) > 2) plResize();
+          if (!plLastTs) plLastTs = ts;
+          var frame = Math.min(0.05, (ts - plLastTs) / 1000);
+          plLastTs = ts;
+          plAcc += frame;
+          var step = 1 / 240;
+          var n = 0;
+          while (plAcc >= step && n < 40) { plStep(step); plAcc -= step; n++; }
+          plDraw(ts);
+          if (!plinkoOverlay.hidden) plRaf = requestAnimationFrame(plLoop);
+          else plRaf = null;
+        }
+        function plStartLoop() {
+          if (!plRaf) { plLastTs = 0; plAcc = 0; plRaf = requestAnimationFrame(plLoop); }
+        }
+
+        plDropBtn.addEventListener('click', function () {
+          if (!plW) plResize();
+          var bet = Math.floor(Number(plBetInput.value));
+          if (!isFinite(bet) || bet <= 0) { plShowError('Enter a bet of at least 1 Tung!'); return; }
+          if (bet > tungs) {
+            plShowError(tungs <= 0
+              ? "You're out of Tungs! Go tap Tung Tung on the main screen to earn more."
+              : 'You only have ' + tungs + ' Tungs — lower your bet!');
+            return;
+          }
+          if (plBalls.length >= PL_MAX_BALLS) { plShowError('Too many balls in the air — let a few land first!'); return; }
+          plClearError();
+          // The bet comes off the balance the moment the ball drops.
+          tungs -= bet;
+          plRender();
+          // Roll the drop's path up front: one fair left/right coin
+          // flip per row. The landing slot is the number of rights.
+          var dirs = [];
+          var rights = 0;
+          for (var di = 0; di < PL_ROWS; di++) {
+            var goRight = Math.random() < 0.5;
+            dirs.push(goRight ? 1 : -1);
+            if (goRight) rights++;
+          }
+          var newBall = {
+            dirs: dirs,
+            slot: rights,
+            seg: 0,
+            t: 0,
+            x: plW / 2,
+            y: plTop - plDy * 0.8,
+            bet: bet,
+            mults: PL_MULTS[plRisk] // snapshot — mid-flight risk changes can't move the goalposts
+          };
+          var startPos = plBallPos(newBall);
+          newBall.x = startPos.x;
+          newBall.y = startPos.y;
+          plBalls.push(newBall);
+          plMessage.textContent = 'Ball away! Bounce lucky…';
+          saveNow();
+          plUpdateBackState();
+          plStartLoop();
+        });
+
+        function openPlinko() {
+          hideOverlay(gambleOverlay, function () { showOverlay(plinkoOverlay); });
+          plRender();
+          plClearError();
+          plHideResult();
+          if (!plBetInput.value) plBetInput.value = '10';
+          plMessage.textContent = 'Set your bet, pick a risk level, and drop the ball!';
+          plResize();
+          plStartLoop();
+          plDropBtn.focus();
+        }
+        function backFromPlinko() {
+          if (plBalls.length > 0) { plMessage.textContent = 'Wait for your balls to land first!'; return; }
+          hideOverlay(plinkoOverlay, function () { showOverlay(gambleOverlay); });
+          plinkoCard.focus();
+        }
+        plinkoCard.addEventListener('click', openPlinko);
+        plinkoBackBtn.addEventListener('click', backFromPlinko);
 
         // ---------- Global Leaderboard (Firebase REST, 30s auto-sync) ----------
         var LB_BASE = 'https://tungtungclicker-default-rtdb.firebaseio.com';
@@ -7123,6 +8001,10 @@
           merged.nebulaPulse = Math.max(num(local, 'nebulaPulse'), num(snap, 'nebulaPulse'));
           merged.galacticFactory = Math.max(num(local, 'galacticFactory'), num(snap, 'galacticFactory'));
           merged.totalClicks = Math.max(num(local, 'totalClicks'), num(snap, 'totalClicks'));
+          // Gambling history only ever grows, so the protective merge
+          // keeps whichever side has the bigger lifetime totals.
+          merged.gamblingWon = Math.max(num(local, 'gamblingWon'), num(snap, 'gamblingWon'));
+          merged.gamblingLost = Math.max(num(local, 'gamblingLost'), num(snap, 'gamblingLost'));
           var skins = [];
           [local.unlockedSkins, snap.unlockedSkins].forEach(function (arr) {
             if (!Array.isArray(arr)) return;
