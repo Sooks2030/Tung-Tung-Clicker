@@ -4292,7 +4292,7 @@
               </svg>
             </span>
             <span class="plinko-card-label">PLINKO</span>
-            <span class="plinko-card-sub">Drop the balls — edge slots pay up to 30x!</span>
+            <span class="plinko-card-sub">Drop the balls — edge slots pay up to 40x!</span>
           </button>
         </div>
         <button class="back-btn" id="gambleBack" type="button">&larr; Back</button>
@@ -7243,19 +7243,21 @@
         // left or right on a fair coin flip, so the landing slot is
         // binomially distributed: the center slots are hit constantly
         // and the far edges are rare.
-        // HARD tables (house edge): the center/inner slots now sit
-        // well below 1x so the most common landings lose money, and
-        // the edges were cut hard too. Binomial-weighted expected
-        // return per Tung (C(12,k)/4096 across the 13 slots):
-        //   Low:    center 0.5x, edges to 5x  — EV ≈ 0.82x
-        //   Medium: center 0.3x, edges to 10x — EV ≈ 0.80x
-        //   High:   center 0.1x, edges to 30x — EV ≈ 0.79x
-        // (The old buffed tables paid ~1.67x / ~2.18x / ~2.60x.)
+        // Loosened tables (still a house edge): the center/inner
+        // slots sit below 1x so the most common landings lose a
+        // little, but the mid slots and edges pay noticeably more
+        // than the previous hardened tables. Binomial-weighted
+        // expected return per Tung (C(12,k)/4096 across 13 slots):
+        //   Low:    center 0.7x, edges to 8x  — EV ≈ 0.92x
+        //   Medium: center 0.5x, edges to 15x — EV ≈ 0.92x
+        //   High:   center 0.3x, edges to 40x — EV ≈ 0.91x
+        // (Previous hardened tables paid ~0.82x / ~0.80x / ~0.79x;
+        // the old buffed tables paid ~1.67x / ~2.18x / ~2.60x.)
         var PL_ROWS = 12;
         var PL_MULTS = {
-          low:    [5, 2.5, 1.5, 1.1, 0.9, 0.8, 0.5, 0.8, 0.9, 1.1, 1.5, 2.5, 5],
-          medium: [10, 5, 3, 1.8, 0.9, 0.5, 0.3, 0.5, 0.9, 1.8, 3, 5, 10],
-          high:   [30, 12, 5, 2, 0.8, 0.3, 0.1, 0.3, 0.8, 2, 5, 12, 30]
+          low:    [8, 4, 2.5, 1.5, 1.1, 0.6, 0.7, 0.6, 1.1, 1.5, 2.5, 4, 8],
+          medium: [15, 6, 3, 2, 0.9, 0.6, 0.5, 0.6, 0.9, 2, 3, 6, 15],
+          high:   [40, 12, 4, 2, 0.9, 0.5, 0.3, 0.5, 0.9, 2, 4, 12, 40]
         };
         var PL_MAX_BALLS = 20;
         var plRisk = 'low';
