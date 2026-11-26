@@ -1499,6 +1499,32 @@
         box-shadow: 0 4px 0 #7c4a12, 0 0 18px rgba(255, 214, 10, 0.5);
       }
       .pl-risk-btn[disabled] { opacity: 0.55; cursor: default; }
+      /* Ball-count buttons (1 / 5 / 10) mirror the risk buttons. */
+      .pl-count-btn {
+        appearance: none;
+        font: inherit;
+        font-weight: 900;
+        font-size: 1rem;
+        padding: 0.5rem 1.15rem;
+        min-height: 2rem;
+        border-radius: 999px;
+        border: 3px solid #3b3880;
+        background: linear-gradient(180deg, #232150 0%, #14122f 100%);
+        color: #c7c5ff;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #0a0920, 0 8px 14px rgba(0, 0, 0, 0.35);
+        transition: transform 0.1s ease, filter 0.1s ease;
+      }
+      .pl-count-btn:hover { filter: brightness(1.2); }
+      .pl-count-btn:active { transform: translateY(2px); }
+      .pl-count-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }
+      .pl-count-btn.selected {
+        background: linear-gradient(180deg, #ffd60a 0%, #d99406 100%);
+        border-color: #7c4a12;
+        color: #3a2205;
+        box-shadow: 0 4px 0 #7c4a12, 0 0 18px rgba(255, 214, 10, 0.5);
+      }
+      .pl-total { margin: 0.55rem 0 0; min-height: 1.4em; font-weight: 800; font-size: 1rem; color: #fef9c3; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5); font-variant-numeric: tabular-nums; }
       .pl-bet { margin-top: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
       .pl-bet label { font-weight: 900; font-size: 1.05rem; letter-spacing: 0.04em; color: #d9d7ff; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
       #plBetInput {
@@ -3555,6 +3581,24 @@
               </div>
               <button class="shop-buy-btn" id="buySupernovaBtn" type="button">Buy — 250,000 Tungs</button>
             </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">🌑</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Void Bat Smash</div>
+                <div class="shop-card-desc">A bat forged from the void itself! Every manual click earns +15,000 extra Tungs for each one you own.</div>
+                <div class="shop-card-meta" id="voidMeta">Owned: 0 &nbsp;•&nbsp; +15,000 Click Power each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyVoidBtn" type="button">Buy — 1,500,000 Tungs</button>
+            </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">Ω</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Omega Tung Strike</div>
+                <div class="shop-card-desc">The final strike — pure Omega power in every swing! Every manual click earns +75,000 extra Tungs for each one you own.</div>
+                <div class="shop-card-meta" id="omegaMeta">Owned: 0 &nbsp;•&nbsp; +75,000 Click Power each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyOmegaBtn" type="button">Buy — 8,000,000 Tungs</button>
+            </div>
           </section>
           <section class="shop-section" aria-labelledby="ttpsUpgradesTitle">
             <h3 class="shop-section-title" id="ttpsUpgradesTitle">⚡ TTPS — Tungs Per Second</h3>
@@ -3630,6 +3674,24 @@
                 <div class="shop-card-meta" id="galacticFactoryMeta">Owned: 0 &nbsp;•&nbsp; +4,800 TTPS each</div>
               </div>
               <button class="shop-buy-btn" id="buyGalacticFactoryBtn" type="button">Buy — 500,000 Tungs</button>
+            </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">✨</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Starlight Harvesters</div>
+                <div class="shop-card-desc">Harvesting starlight all night long! Automatically earns +25,000 Tungs every second for each one you own.</div>
+                <div class="shop-card-meta" id="starlightMeta">Owned: 0 &nbsp;•&nbsp; +25,000 TTPS each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyStarlightBtn" type="button">Buy — 2,500,000 Tungs</button>
+            </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">🪐</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Multiverse Tung Engine</div>
+                <div class="shop-card-desc">An engine running in every universe at once! Automatically earns +120,000 Tungs every second for each one you own.</div>
+                <div class="shop-card-meta" id="multiverseMeta">Owned: 0 &nbsp;•&nbsp; +120,000 TTPS each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyMultiverseBtn" type="button">Buy — 12,000,000 Tungs</button>
             </div>
           </section>
           <p class="shop-error" id="shopError" role="alert"></p>
@@ -4040,7 +4102,7 @@
               </svg>
             </span>
             <span class="plinko-card-label">PLINKO</span>
-            <span class="plinko-card-sub">Drop the ball — edge slots pay up to 170x!</span>
+            <span class="plinko-card-sub">Drop the balls — edge slots pay up to 55x!</span>
           </button>
         </div>
         <button class="back-btn" id="gambleBack" type="button">&larr; Back</button>
@@ -4171,8 +4233,15 @@
           <button class="pl-risk-btn" id="plRiskHigh" type="button" data-risk="high" aria-pressed="false">High</button>
         </div>
 
+        <div class="pl-risk-row" role="group" aria-label="Ball count">
+          <span class="pl-risk-label">BALLS</span>
+          <button class="pl-count-btn selected" type="button" data-count="1" aria-pressed="true">1 Ball</button>
+          <button class="pl-count-btn" type="button" data-count="5" aria-pressed="false">5 Balls</button>
+          <button class="pl-count-btn" type="button" data-count="10" aria-pressed="false">10 Balls</button>
+        </div>
+
         <div class="pl-bet">
-          <label for="plBetInput">Your Bet (Tungs)
+          <label for="plBetInput">Bet Per Ball (Tungs)
             <input id="plBetInput" type="number" inputmode="numeric" min="1" step="1" value="10" />
           </label>
           <div class="pl-quick">
@@ -4181,6 +4250,7 @@
             <button class="pl-quick-btn" type="button" data-bet="max">Max</button>
           </div>
         </div>
+        <p class="pl-total" id="plTotalLine" aria-live="polite"></p>
         <p class="pl-error" id="plError" role="alert"></p>
 
         <button class="cf-flip-btn" id="plDropBtn" type="button">DROP BALL!</button>
@@ -4260,8 +4330,8 @@
           </section>
           <section class="sync-section" aria-labelledby="syncRestoreTitle">
             <h3 class="sync-section-title" id="syncRestoreTitle">⬇️ Restore from Cloud</h3>
-            <p class="sync-note">Progress reset? Paste your Player ID — or type your exact leaderboard nickname — and your cloud save comes right back.</p>
-            <input class="sync-input" id="syncRestoreInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste Player ID or nickname" aria-label="Player ID or nickname to restore" />
+            <p class="sync-note">Progress reset? Paste your Player ID and your cloud save comes right back. Your ID is your recovery code — only the exact ID can pull a save, so keep it private.</p>
+            <input class="sync-input" id="syncRestoreInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your Player ID" aria-label="Player ID to restore" />
             <div class="sync-row">
               <button class="lb-refresh-btn" id="syncRestoreBtn" type="button">Restore My Save</button>
             </div>
@@ -4524,6 +4594,10 @@
         var nightSkyPatrol = 0;
         var nebulaPulse = 0;
         var galacticFactory = 0;
+        var voidBatSmash = 0;
+        var omegaTungStrike = 0;
+        var starlightHarvesters = 0;
+        var multiverseEngine = 0;
         var unlockedSkins = ['classic'];
         var equippedSkin = 'classic';
         // Lifetime manual taps on Tung Tung — saved everywhere the
@@ -4567,6 +4641,14 @@
         var buyNebulaBtn = document.getElementById('buyNebulaBtn');
         var galacticFactoryMetaEl = document.getElementById('galacticFactoryMeta');
         var buyGalacticFactoryBtn = document.getElementById('buyGalacticFactoryBtn');
+        var voidMetaEl = document.getElementById('voidMeta');
+        var buyVoidBtn = document.getElementById('buyVoidBtn');
+        var omegaMetaEl = document.getElementById('omegaMeta');
+        var buyOmegaBtn = document.getElementById('buyOmegaBtn');
+        var starlightMetaEl = document.getElementById('starlightMeta');
+        var buyStarlightBtn = document.getElementById('buyStarlightBtn');
+        var multiverseMetaEl = document.getElementById('multiverseMeta');
+        var buyMultiverseBtn = document.getElementById('buyMultiverseBtn');
         var openCrateBtn = document.getElementById('openCrateBtn');
         var openEventCrateBtn = document.getElementById('openEventCrateBtn');
         var openBasicPlusCrateBtn = document.getElementById('openBasicPlusCrateBtn');
@@ -4590,22 +4672,32 @@
         function nightPatrolCost() { return Math.floor(18000 * Math.pow(1.15, nightSkyPatrol)); }
         function nebulaCost() { return Math.floor(95000 * Math.pow(1.15, nebulaPulse)); }
         function galacticFactoryCost() { return Math.floor(500000 * Math.pow(1.15, galacticFactory)); }
+        // Top Click Power tiers above Supernova Tap - same 1.15x scaling.
+        function voidCost() { return Math.floor(1500000 * Math.pow(1.15, voidBatSmash)); }
+        function omegaCost() { return Math.floor(8000000 * Math.pow(1.15, omegaTungStrike)); }
+        // Top TTPS tiers above Galactic Tung Tung Factory - same scaling.
+        function starlightCost() { return Math.floor(2500000 * Math.pow(1.15, starlightHarvesters)); }
+        function multiverseCost() { return Math.floor(12000000 * Math.pow(1.15, multiverseEngine)); }
         function fmtNum(n) { return Math.floor(n).toLocaleString('en-US'); }
         // Combined passive income (TTPS): Auto Clickers +1, Alarm
         // Clocks +10, Factories +100, Drum Crew +10, Midnight Echoes
         // +45, Night Sky Patrol +200, Nebula Pulse +950, Galactic
-        // Factory +4,800 — each per second.
+        // Factory +4,800, Starlight Harvesters +25,000, Multiverse
+        // Tung Engine +120,000 — each per second.
         function totalTPS() {
           return autoLevel + alarmClocks * 10 + factories * 100
             + sahurDrumCrew * 10 + midnightEchoes * 45 + nightSkyPatrol * 200
-            + nebulaPulse * 950 + galacticFactory * 4800;
+            + nebulaPulse * 950 + galacticFactory * 4800
+            + starlightHarvesters * 25000 + multiverseEngine * 120000;
         }
         // Manual click power: 1 base + Drumstick +1, Reinforced Grip
         // +5, Titanium Core +25, Meteorite Swing +120, Cosmic
-        // Shockwave +600, Supernova Tap +3,000 — each per tap.
+        // Shockwave +600, Supernova Tap +3,000, Void Bat Smash
+        // +15,000, Omega Tung Strike +75,000 — each per tap.
         function clickPower() {
           return 1 + clickUpgrades + reinforcedGrip * 5 + titaniumCore * 25
-            + meteoriteSwing * 120 + cosmicShockwave * 600 + supernovaTap * 3000;
+            + meteoriteSwing * 120 + cosmicShockwave * 600 + supernovaTap * 3000
+            + voidBatSmash * 15000 + omegaTungStrike * 75000;
         }
         function hasSkin(id) { return unlockedSkins.indexOf(id) !== -1; }
 
@@ -4810,6 +4902,14 @@
           if (buyNebulaBtn) { buyNebulaBtn.textContent = 'Buy — ' + fmtNum(nebulaCost()) + ' Tungs'; buyNebulaBtn.disabled = tungs < nebulaCost(); }
           if (galacticFactoryMetaEl) galacticFactoryMetaEl.textContent = 'Owned: ' + galacticFactory + '  •  +4,800 TTPS each  •  Current bonus: +' + fmtNum(galacticFactory * 4800) + ' TTPS';
           if (buyGalacticFactoryBtn) { buyGalacticFactoryBtn.textContent = 'Buy — ' + fmtNum(galacticFactoryCost()) + ' Tungs'; buyGalacticFactoryBtn.disabled = tungs < galacticFactoryCost(); }
+          if (voidMetaEl) voidMetaEl.textContent = 'Owned: ' + voidBatSmash + '  •  +15,000 Click Power each  •  Current bonus: +' + fmtNum(voidBatSmash * 15000) + ' per tap';
+          if (buyVoidBtn) { buyVoidBtn.textContent = 'Buy — ' + fmtNum(voidCost()) + ' Tungs'; buyVoidBtn.disabled = tungs < voidCost(); }
+          if (omegaMetaEl) omegaMetaEl.textContent = 'Owned: ' + omegaTungStrike + '  •  +75,000 Click Power each  •  Current bonus: +' + fmtNum(omegaTungStrike * 75000) + ' per tap';
+          if (buyOmegaBtn) { buyOmegaBtn.textContent = 'Buy — ' + fmtNum(omegaCost()) + ' Tungs'; buyOmegaBtn.disabled = tungs < omegaCost(); }
+          if (starlightMetaEl) starlightMetaEl.textContent = 'Owned: ' + starlightHarvesters + '  •  +25,000 TTPS each  •  Current bonus: +' + fmtNum(starlightHarvesters * 25000) + ' TTPS';
+          if (buyStarlightBtn) { buyStarlightBtn.textContent = 'Buy — ' + fmtNum(starlightCost()) + ' Tungs'; buyStarlightBtn.disabled = tungs < starlightCost(); }
+          if (multiverseMetaEl) multiverseMetaEl.textContent = 'Owned: ' + multiverseEngine + '  •  +120,000 TTPS each  •  Current bonus: +' + fmtNum(multiverseEngine * 120000) + ' TTPS';
+          if (buyMultiverseBtn) { buyMultiverseBtn.textContent = 'Buy — ' + fmtNum(multiverseCost()) + ' Tungs'; buyMultiverseBtn.disabled = tungs < multiverseCost(); }
           if (openCrateBtn) {
             openCrateBtn.textContent = 'Open — 100 Tungs';
             openCrateBtn.disabled = tungs < 100;
@@ -4947,6 +5047,10 @@
             nightSkyPatrol: nightSkyPatrol,
             nebulaPulse: nebulaPulse,
             galacticFactory: galacticFactory,
+            voidBatSmash: voidBatSmash,
+            omegaTungStrike: omegaTungStrike,
+            starlightHarvesters: starlightHarvesters,
+            multiverseEngine: multiverseEngine,
             unlockedSkins: unlockedSkins.slice(),
             equippedSkin: equippedSkin,
             totalClicks: totalClicks,
@@ -5028,6 +5132,14 @@
           if (isFinite(sNe) && sNe >= 0) nebulaPulse = sNe;
           var sGf = Math.floor(Number(parsed.galacticFactory));
           if (isFinite(sGf) && sGf >= 0) galacticFactory = sGf;
+          var sVb = Math.floor(Number(parsed.voidBatSmash));
+          if (isFinite(sVb) && sVb >= 0) voidBatSmash = sVb;
+          var sOm = Math.floor(Number(parsed.omegaTungStrike));
+          if (isFinite(sOm) && sOm >= 0) omegaTungStrike = sOm;
+          var sSh = Math.floor(Number(parsed.starlightHarvesters));
+          if (isFinite(sSh) && sSh >= 0) starlightHarvesters = sSh;
+          var sMv = Math.floor(Number(parsed.multiverseEngine));
+          if (isFinite(sMv) && sMv >= 0) multiverseEngine = sMv;
           if (Array.isArray(parsed.unlockedSkins)) {
             unlockedSkins = ['classic'];
             parsed.unlockedSkins.forEach(function (s) {
@@ -5353,6 +5465,10 @@
         bindUpgradeBuy(buyNightPatrolBtn, nightPatrolCost, function () { nightSkyPatrol += 1; }, 'Night Sky Patrol');
         bindUpgradeBuy(buyNebulaBtn, nebulaCost, function () { nebulaPulse += 1; }, 'Nebula Pulse Generator');
         bindUpgradeBuy(buyGalacticFactoryBtn, galacticFactoryCost, function () { galacticFactory += 1; }, 'Galactic Tung Tung Factory');
+        bindUpgradeBuy(buyVoidBtn, voidCost, function () { voidBatSmash += 1; }, 'Void Bat Smash');
+        bindUpgradeBuy(buyOmegaBtn, omegaCost, function () { omegaTungStrike += 1; }, 'Omega Tung Strike');
+        bindUpgradeBuy(buyStarlightBtn, starlightCost, function () { starlightHarvesters += 1; }, 'Starlight Harvesters');
+        bindUpgradeBuy(buyMultiverseBtn, multiverseCost, function () { multiverseEngine += 1; }, 'Multiverse Tung Engine');
         document.getElementById('equipClassicBtn').addEventListener('click', function () { equippedSkin = 'classic'; applySkin(); renderTungs(); saveNow(); });
         document.getElementById('equipGoldenBtn').addEventListener('click', function () { if (!hasSkin('golden')) return; equippedSkin = 'golden'; applySkin(); renderTungs(); saveNow(); });
         document.getElementById('equipSnowboarderBtn').addEventListener('click', function () { if (!hasSkin('snowboarder')) return; equippedSkin = 'snowboarder'; applySkin(); renderTungs(); saveNow(); });
@@ -6525,33 +6641,56 @@
         var plinkoFlash = document.getElementById('plinkoFlash');
         var plQuickBtns = document.querySelectorAll('.pl-quick-btn');
         var plRiskBtns = document.querySelectorAll('.pl-risk-btn');
+        var plCountBtns = document.querySelectorAll('.pl-count-btn');
+        var plTotalLine = document.getElementById('plTotalLine');
 
         // 12 rows of pegs, 13 multiplier buckets. Each drop takes a
         // true Galton-board path — at every row the ball bounces
         // left or right on a fair coin flip, so the landing slot is
         // binomially distributed: the center slots are hit constantly
-        // and pay small/safe, the far edges are rare and pay big.
-        // These tables are tuned to that distribution (~99% payback).
+        // and the far edges are rare.
+        // BUFFED tables: the center/inner slots now pay fair,
+        // profit-making multipliers and the mid-to-outer slots are
+        // much stronger, per risk mode —
+        //   Low:    center 1.2x–1.5x, inner-mid 2x–3x, edges to 11x
+        //   Medium: center 0.8x–1.2x, mid 2.5x–6x, edges to 22x
+        //   High:   center 0.5x–1x, mid 4x–10x, edges to 55x
         var PL_ROWS = 12;
         var PL_MULTS = {
-          low:    [10, 3, 1.6, 1.4, 1.1, 1, 0.5, 1, 1.1, 1.4, 1.6, 3, 10],
-          medium: [33, 11, 4, 2, 1.1, 0.6, 0.3, 0.6, 1.1, 2, 4, 11, 33],
-          high:   [170, 24, 8.1, 2, 0.7, 0.2, 0.2, 0.2, 0.7, 2, 8.1, 24, 170]
+          low:    [11, 6, 3, 2.5, 2, 1.2, 1.4, 1.2, 2, 2.5, 3, 6, 11],
+          medium: [22, 13, 6, 4.5, 3, 1.2, 1, 1.2, 3, 4.5, 6, 13, 22],
+          high:   [55, 25, 9, 6, 4, 1, 0.6, 1, 4, 6, 9, 25, 55]
         };
-        var PL_MAX_BALLS = 6;
+        var PL_MAX_BALLS = 20;
         var plRisk = 'low';
+        var plBallCount = 1;
         var plPegs = [];
         var plBalls = [];
         var plW = 0, plH = 0, plDx = 0, plDy = 0, plTop = 0;
         var plBucketTop = 0, plBucketH = 0, plPegR = 3, plBallR = 7;
-        var plFlashSlot = -1, plFlashUntil = 0;
+        // Per-slot highlight timestamps (multi-ball safe): a short
+        // flash on any landing, and a longer golden WIN highlight
+        // when the landing pays a profit (multiplier >= 1.5x).
+        var plFlashUntils = [], plWinUntils = [];
+        var plLastScareAt = 0;
         var plRaf = null, plLastTs = 0, plAcc = 0, plLastTickSnd = 0;
         var plResultTimer = null, plinkoFlashTimer = null;
         var plAudioCtx = null;
 
         function plSyncBalance() { if (plBalanceEl) plBalanceEl.textContent = 'Tungs: ' + tungs; }
-        function plRender() { renderTungs(); plSyncBalance(); }
+        function plRender() { renderTungs(); plSyncBalance(); plUpdateTotal(); }
         function plFmtMult(m) { return (Math.round(m * 10) / 10) + 'x'; }
+
+        // Live total-cost line: betPerBall × ballCount, so a 5- or
+        // 10-ball drop never surprises the player at the Drop button.
+        function plUpdateTotal() {
+          if (!plTotalLine || !plBetInput) return;
+          var per = Math.floor(Number(plBetInput.value));
+          if (!isFinite(per) || per < 0) per = 0;
+          plTotalLine.textContent = plBallCount > 1
+            ? 'Total cost: ' + fmtNum(per * plBallCount) + ' Tungs (' + fmtNum(per) + ' × ' + plBallCount + ' balls)'
+            : 'Total cost: ' + fmtNum(per) + ' Tungs';
+        }
 
         function plLayout() {
           plDx = (plW * 0.94) / (PL_ROWS + 1);
@@ -6588,8 +6727,8 @@
         window.addEventListener('resize', function () { if (!plinkoOverlay.hidden) plResize(); });
 
         function plBucketColor(m) {
-          if (m >= 100) return '#e879f9';
-          if (m >= 10) return '#ffd60a';
+          if (m >= 25) return '#e879f9';
+          if (m >= 8) return '#ffd60a';
           if (m >= 3) return '#ffb700';
           if (m >= 1.4) return '#34c759';
           if (m >= 1) return '#2f9e44';
@@ -6616,23 +6755,39 @@
           var slotW = plW / mults.length;
           for (var i = 0; i < mults.length; i++) {
             var bx = i * slotW;
-            var flashing = (i === plFlashSlot && now < plFlashUntil);
+            var flashing = now < (plFlashUntils[i] || 0);
+            var winning = now < (plWinUntils[i] || 0);
+            var lift = winning ? -6 : (flashing ? -3 : 0);
             plCtx.fillStyle = plBucketColor(mults[i]);
-            plCtx.globalAlpha = flashing ? 1 : 0.82;
-            plRoundRect(bx + 1.5, plBucketTop + (flashing ? -3 : 0), slotW - 3, plBucketH, 6);
+            plCtx.globalAlpha = (flashing || winning) ? 1 : 0.82;
+            plRoundRect(bx + 1.5, plBucketTop + lift, slotW - 3, plBucketH, 6);
             plCtx.fill();
             if (flashing) {
               plCtx.globalAlpha = 0.55;
               plCtx.fillStyle = '#ffffff';
-              plRoundRect(bx + 1.5, plBucketTop - 3, slotW - 3, plBucketH, 6);
+              plRoundRect(bx + 1.5, plBucketTop + lift, slotW - 3, plBucketH, 6);
               plCtx.fill();
+            }
+            if (winning) {
+              // Profit highlight: a pulsing golden wash + ring so a
+              // >= 1.5x landing bucket is unmissable, even mid-volley
+              // on 5- and 10-ball drops.
+              plCtx.globalAlpha = 0.38 + 0.22 * Math.sin(now / 90);
+              plCtx.fillStyle = '#ffd60a';
+              plRoundRect(bx + 1.5, plBucketTop + lift, slotW - 3, plBucketH, 6);
+              plCtx.fill();
+              plCtx.globalAlpha = 1;
+              plCtx.lineWidth = 3;
+              plCtx.strokeStyle = '#ffd60a';
+              plRoundRect(bx + 1.5, plBucketTop + lift, slotW - 3, plBucketH, 6);
+              plCtx.stroke();
             }
             plCtx.globalAlpha = 1;
             plCtx.fillStyle = mults[i] >= 1 ? '#231303' : '#ffe9e9';
             plCtx.font = '900 ' + Math.max(9, Math.min(15, slotW * 0.34)) + 'px system-ui, sans-serif';
             plCtx.textAlign = 'center';
             plCtx.textBaseline = 'middle';
-            plCtx.fillText(plFmtMult(mults[i]), bx + slotW / 2, plBucketTop + (flashing ? -3 : 0) + plBucketH / 2 + 1);
+            plCtx.fillText(plFmtMult(mults[i]), bx + slotW / 2, plBucketTop + lift + plBucketH / 2 + 1);
           }
           // Pegs — a hit peg flares gold and fades back to silver-blue.
           for (var p = 0; p < plPegs.length; p++) {
@@ -6762,6 +6917,7 @@
             else val = tungs; // max
             plBetInput.value = val;
             plClearError();
+            plUpdateTotal();
           });
         }
 
@@ -6777,6 +6933,22 @@
           plRiskBtns[pr].addEventListener('click', function () { plSetRisk(this.getAttribute('data-risk')); });
         }
 
+        // Ball count: 1 / 5 / 10 balls per drop. The bet input is
+        // PER BALL; a drop costs betPerBall × ballCount in total.
+        function plSetCount(n) {
+          plBallCount = n;
+          for (var i = 0; i < plCountBtns.length; i++) {
+            var on = Number(plCountBtns[i].getAttribute('data-count')) === n;
+            plCountBtns[i].classList.toggle('selected', on);
+            plCountBtns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+          }
+          plUpdateTotal();
+        }
+        for (var pc = 0; pc < plCountBtns.length; pc++) {
+          plCountBtns[pc].addEventListener('click', function () { plSetCount(Number(this.getAttribute('data-count'))); });
+        }
+        plBetInput.addEventListener('input', plUpdateTotal);
+
         function plUpdateBackState() {
           if (plinkoBackBtn) plinkoBackBtn.disabled = plBalls.length > 0;
         }
@@ -6784,8 +6956,10 @@
         function plSettle(ball, slot) {
           var mult = ball.mults[slot];
           var payout = Math.floor(ball.bet * mult);
-          plFlashSlot = slot;
-          plFlashUntil = performance.now() + 900;
+          var nowMs = performance.now();
+          plFlashUntils[slot] = nowMs + 900;
+          // Profit landings (>= 1.5x) get the golden WIN highlight.
+          if (mult >= 1.5) plWinUntils[slot] = nowMs + 1700;
           tungs += payout;
           recordGamblingResult(ball.bet, payout);
           plRender();
@@ -6808,8 +6982,13 @@
           } else {
             // Heavy loss (under half the bet back) — same punishment
             // as a Coin Flip / Blackjack loss: flash, shake, jumpscare.
+            // Throttled so a 5- or 10-ball volley of bad landings
+            // can't stack a jumpscare on top of itself.
             plMessage.textContent = 'Ouch — ' + plFmtMult(mult) + ' slot. Only ' + fmtNum(payout) + ' Tungs back.';
-            onGambleLoss(ball.bet - payout);
+            if (nowMs - plLastScareAt > 2600) {
+              plLastScareAt = nowMs;
+              onGambleLoss(ball.bet - payout);
+            }
           }
           saveNow();
           plUpdateBackState();
@@ -6831,20 +7010,35 @@
           if (ball.seg >= PL_ROWS) {
             // Final fall: drop from below the last row into the
             // winning bucket, easing sideways to the bucket's center.
+            // Any leftover bounce energy fades out as it drops in, so
+            // the ball still lands dead-center in its true bucket.
             var from = plWaypoint(ball, PL_ROWS);
             var slotW = plW / ball.mults.length;
             var tx = (ball.slot + 0.5) * slotW;
             var ty = plBucketTop + plBucketH * 0.45;
             var t = Math.min(1, ball.t);
-            return { x: from.x + (tx - from.x) * t, y: from.y + (ty - from.y) * (t * t) };
+            return {
+              x: from.x + (tx - from.x) * t + (ball.defl || 0) * (1 - t) * 0.6,
+              y: from.y + (ty - from.y) * (t * t)
+            };
           }
           var a = plWaypoint(ball, ball.seg);
           var b = plWaypoint(ball, ball.seg + 1);
           var tt = Math.min(1, ball.t);
-          // x glides peg-to-peg; y accelerates downward with a small
-          // hop arc, so the ball reads as bouncing off each peg.
+          // Dynamic peg deflection: every peg bounce gives the ball
+          // a random horizontal kick (ball.defl, re-rolled at each
+          // row) that peaks mid-bounce and settles back to zero at
+          // the true waypoint, plus a small continuous wobble with a
+          // per-ball phase — balls spread and jitter off the pegs
+          // instead of funneling down the exact center line, while
+          // the pre-rolled landing slot stays exact.
+          var kick = (ball.defl || 0) * Math.sin(tt * Math.PI);
+          var wob = Math.sin((ball.seg + tt) * 2.3 + (ball.phase || 0)) * plDx * 0.045;
+          // x glides peg-to-peg (plus kick + wobble); y accelerates
+          // downward with a small hop arc, so the ball reads as
+          // bouncing off each peg.
           return {
-            x: a.x + (b.x - a.x) * tt,
+            x: a.x + (b.x - a.x) * tt + kick + wob,
             y: a.y + (b.y - a.y) * (tt * tt) - Math.sin(tt * Math.PI) * plDy * 0.16
           };
         }
@@ -6863,7 +7057,16 @@
         function plStep(dt) {
           for (var bi = plBalls.length - 1; bi >= 0; bi--) {
             var ball = plBalls[bi];
-            ball.t += dt / (ball.seg >= PL_ROWS ? 0.26 : 0.125);
+            // Staggered launch on multi-ball drops: the ball waits
+            // at the top until its delay runs out.
+            if (ball.delay > 0) {
+              ball.delay -= dt;
+              var holdPos = plBallPos(ball);
+              ball.x = holdPos.x;
+              ball.y = holdPos.y;
+              continue;
+            }
+            ball.t += dt * (ball.speed || 1) / (ball.seg >= PL_ROWS ? 0.26 : 0.125);
             if (ball.t >= 1) {
               ball.t = 0;
               ball.seg++;
@@ -6872,6 +7075,8 @@
                 plSettle(ball, ball.slot);
                 continue;
               }
+              // Fresh random deflection kick for the next bounce.
+              ball.defl = (Math.random() * 2 - 1) * plDx * 0.24;
               var wp = plWaypoint(ball, ball.seg);
               plGlowPegNear(wp.x, wp.y - plDy * 0.5);
               plTickSound();
@@ -6907,43 +7112,56 @@
 
         plDropBtn.addEventListener('click', function () {
           if (!plW) plResize();
-          var bet = Math.floor(Number(plBetInput.value));
-          if (!isFinite(bet) || bet <= 0) { plShowError('Enter a bet of at least 1 Tung!'); return; }
-          if (bet > tungs) {
+          var betPerBall = Math.floor(Number(plBetInput.value));
+          if (!isFinite(betPerBall) || betPerBall <= 0) { plShowError('Enter a bet of at least 1 Tung!'); return; }
+          var count = plBallCount;
+          var totalCost = betPerBall * count;
+          if (totalCost > tungs) {
             plShowError(tungs <= 0
               ? "You're out of Tungs! Go tap Tung Tung on the main screen to earn more."
-              : 'You only have ' + tungs + ' Tungs — lower your bet!');
+              : 'You only have ' + tungs + ' Tungs — ' + count + (count === 1 ? ' ball costs ' : ' balls cost ') + fmtNum(totalCost) + '. Lower your bet!');
             return;
           }
-          if (plBalls.length >= PL_MAX_BALLS) { plShowError('Too many balls in the air — let a few land first!'); return; }
+          if (plBalls.length + count > PL_MAX_BALLS) { plShowError('Too many balls in the air — let a few land first!'); return; }
           plClearError();
-          // The bet comes off the balance the moment the ball drops.
-          tungs -= bet;
+          // The full cost (betPerBall × ballCount) comes off the
+          // balance the moment the drop starts; each ball then
+          // settles on its own betPerBall when it lands.
+          tungs -= totalCost;
           plRender();
-          // Roll the drop's path up front: one fair left/right coin
-          // flip per row. The landing slot is the number of rights.
-          var dirs = [];
-          var rights = 0;
-          for (var di = 0; di < PL_ROWS; di++) {
-            var goRight = Math.random() < 0.5;
-            dirs.push(goRight ? 1 : -1);
-            if (goRight) rights++;
+          for (var bn = 0; bn < count; bn++) {
+            // Roll each ball's path up front: one fair left/right
+            // coin flip per row. The landing slot is the number of
+            // rights. Every ball also gets its own deflection kick,
+            // wobble phase and slight speed variance so a volley
+            // spreads across the board instead of stacking.
+            var dirs = [];
+            var rights = 0;
+            for (var di = 0; di < PL_ROWS; di++) {
+              var goRight = Math.random() < 0.5;
+              dirs.push(goRight ? 1 : -1);
+              if (goRight) rights++;
+            }
+            var newBall = {
+              dirs: dirs,
+              slot: rights,
+              seg: 0,
+              t: 0,
+              x: plW / 2,
+              y: plTop - plDy * 0.8,
+              bet: betPerBall,
+              mults: PL_MULTS[plRisk], // snapshot — mid-flight risk changes can't move the goalposts
+              delay: bn * 0.16, // staggered launch on multi-ball drops
+              defl: (Math.random() * 2 - 1) * plDx * 0.24,
+              phase: Math.random() * Math.PI * 2,
+              speed: 0.92 + Math.random() * 0.2
+            };
+            var startPos = plBallPos(newBall);
+            newBall.x = startPos.x;
+            newBall.y = startPos.y;
+            plBalls.push(newBall);
           }
-          var newBall = {
-            dirs: dirs,
-            slot: rights,
-            seg: 0,
-            t: 0,
-            x: plW / 2,
-            y: plTop - plDy * 0.8,
-            bet: bet,
-            mults: PL_MULTS[plRisk] // snapshot — mid-flight risk changes can't move the goalposts
-          };
-          var startPos = plBallPos(newBall);
-          newBall.x = startPos.x;
-          newBall.y = startPos.y;
-          plBalls.push(newBall);
-          plMessage.textContent = 'Ball away! Bounce lucky…';
+          plMessage.textContent = count === 1 ? 'Ball away! Bounce lucky…' : count + ' balls away! Bounce lucky…';
           saveNow();
           plUpdateBackState();
           plStartLoop();
@@ -7859,7 +8077,48 @@
           var data = currentSaveData();
           data.playerId = playerId;
           data.savedAt = Date.now();
+          signSnapshot(data);
           return data;
+        }
+        // ---------- Save integrity seal ----------
+        // Every cloud snapshot and save string carries a keyed
+        // integrity tag ("sig") computed over the whole payload.
+        // Save strings used to be plain base64 JSON: anyone could
+        // decode one, type in any Tungs balance (or an ADMIN badge),
+        // re-encode it and import it — free infinite money from the
+        // game's own Sync screen. Manual restores and save-string
+        // imports now refuse any payload whose seal doesn't check
+        // out, so an edited or hand-written save can never be
+        // applied. (Automatic restores of the player's OWN ID /
+        // account paths still accept older unsigned backups once,
+        // and the re-push that follows seals them.)
+        var SAVE_SIG_SECRET = 'ttc-save-seal-v2::9f3kq7x1';
+        function saveCanonical(d) {
+          var keys = Object.keys(d).filter(function (k) { return k !== 'sig'; }).sort();
+          var parts = [];
+          for (var i = 0; i < keys.length; i++) {
+            parts.push(keys[i] + '=' + JSON.stringify(d[keys[i]]));
+          }
+          return parts.join('|');
+        }
+        function saveSigFor(d) {
+          var s = SAVE_SIG_SECRET + '|' + saveCanonical(d);
+          function fnv(seed) {
+            var h = seed >>> 0;
+            for (var i = 0; i < s.length; i++) {
+              h ^= s.charCodeAt(i);
+              h = Math.imul(h, 16777619);
+            }
+            return ('0000000' + (h >>> 0).toString(16)).slice(-8);
+          }
+          return fnv(2166136261) + fnv(2654435761);
+        }
+        function signSnapshot(d) {
+          if (d && typeof d === 'object') d.sig = saveSigFor(d);
+          return d;
+        }
+        function snapshotSigValid(d) {
+          return !!(d && typeof d === 'object' && typeof d.sig === 'string' && d.sig === saveSigFor(d));
         }
         async function pushCloudSave(force) {
           if (typeof fetch !== 'function' || !playerId) return false;
@@ -7887,6 +8146,8 @@
               && !(snapData.supernovaTap > 0) && !(snapData.sahurDrumCrew > 0)
               && !(snapData.midnightEchoes > 0) && !(snapData.nightSkyPatrol > 0)
               && !(snapData.nebulaPulse > 0) && !(snapData.galacticFactory > 0)
+              && !(snapData.voidBatSmash > 0) && !(snapData.omegaTungStrike > 0)
+              && !(snapData.starlightHarvesters > 0) && !(snapData.multiverseEngine > 0)
               && snapSkins.length <= 1;
             if (snapPristineZero) { cloudDirty = true; return false; }
           }
@@ -7964,18 +8225,26 @@
           return null;
         }
 
-        // Merge an incoming cloud snapshot with the CURRENT live
-        // state so an automatic restore can only ever ADD progress:
-        // Tungs and every upgrade count keep whichever side is
-        // higher, skins are unioned, and the equipped skin stays
-        // valid. This exists because the sign-in link used to pick a
-        // winner by weighted score (skins/upgrades outweigh raw
-        // Tungs), so a stale cloud save with fewer Tungs but one
-        // extra skin replaced a good local balance wholesale —
-        // 53 Tungs dropped to 50, or clear to 0, a second after
-        // load. Automatic applies (startup restore, account link)
-        // go through this merge; only a deliberate manual restore /
-        // import from the Sync screen applies a snapshot exactly.
+        // Reconcile an incoming cloud snapshot with the CURRENT live
+        // state for AUTOMATIC applies (startup restore, account
+        // link). The winner is picked WHOLESALE by progress score:
+        // the higher-scoring snapshot supplies the Tungs balance,
+        // every upgrade count and the skin list together, exactly
+        // as it was saved. The two sides are never mixed field by
+        // field — the old per-field MAX merge was an infinite-money
+        // machine: back up a fat balance, spend it all on upgrades,
+        // then let a stale copy of the fat balance merge back in,
+        // and the MAX of both sides handed back the spent Tungs AND
+        // kept the upgrades, repeatable forever across the Safari /
+        // Home Screen storage split or two signed-in devices.
+        // Picking one whole timeline makes that impossible: bringing
+        // back an old balance also brings back the old (un-bought)
+        // upgrade list, so nothing is ever created. Only the pure
+        // lifetime counters (total clicks, gambling won/lost) keep
+        // the higher value — they are not spendable, so maxing them
+        // can't create Tungs. Manual restores / imports from the
+        // Sync screen don't come through here at all: they apply a
+        // sealed snapshot exactly.
         function mergeSnapshotProtect(snap) {
           var local = currentSaveData();
           function num(d, key, altKey) {
@@ -7983,36 +8252,32 @@
             var n = Math.floor(Number(v));
             return isFinite(n) && n > 0 ? n : 0;
           }
+          var winner = progressScoreOf(snap) > progressScoreOf(local) ? snap : local;
           var merged = {};
-          Object.keys(snap).forEach(function (k) { merged[k] = snap[k]; });
-          merged.tungs = Math.max(num(local, 'tungs'), num(snap, 'tungs'));
-          merged.autoClickers = Math.max(num(local, 'autoClickers', 'autoClicker'), num(snap, 'autoClickers', 'autoClicker'));
-          merged.clickUpgrades = Math.max(num(local, 'clickUpgrades'), num(snap, 'clickUpgrades'));
-          merged.alarmClocks = Math.max(num(local, 'alarmClocks'), num(snap, 'alarmClocks'));
-          merged.factories = Math.max(num(local, 'factories'), num(snap, 'factories'));
-          merged.reinforcedGrip = Math.max(num(local, 'reinforcedGrip'), num(snap, 'reinforcedGrip'));
-          merged.titaniumCore = Math.max(num(local, 'titaniumCore'), num(snap, 'titaniumCore'));
-          merged.meteoriteSwing = Math.max(num(local, 'meteoriteSwing'), num(snap, 'meteoriteSwing'));
-          merged.cosmicShockwave = Math.max(num(local, 'cosmicShockwave'), num(snap, 'cosmicShockwave'));
-          merged.supernovaTap = Math.max(num(local, 'supernovaTap'), num(snap, 'supernovaTap'));
-          merged.sahurDrumCrew = Math.max(num(local, 'sahurDrumCrew'), num(snap, 'sahurDrumCrew'));
-          merged.midnightEchoes = Math.max(num(local, 'midnightEchoes'), num(snap, 'midnightEchoes'));
-          merged.nightSkyPatrol = Math.max(num(local, 'nightSkyPatrol'), num(snap, 'nightSkyPatrol'));
-          merged.nebulaPulse = Math.max(num(local, 'nebulaPulse'), num(snap, 'nebulaPulse'));
-          merged.galacticFactory = Math.max(num(local, 'galacticFactory'), num(snap, 'galacticFactory'));
+          Object.keys(winner).forEach(function (k) { merged[k] = winner[k]; });
+          // Every spendable number comes from the winner ALONE —
+          // explicitly, so a field missing from an older winner
+          // reads as 0 instead of silently keeping the loser's
+          // value when the merged save is applied.
+          var spendKeys = ['tungs', 'clickUpgrades', 'alarmClocks', 'factories',
+            'reinforcedGrip', 'titaniumCore', 'meteoriteSwing', 'cosmicShockwave',
+            'supernovaTap', 'sahurDrumCrew', 'midnightEchoes', 'nightSkyPatrol',
+            'nebulaPulse', 'galacticFactory', 'voidBatSmash', 'omegaTungStrike',
+            'starlightHarvesters', 'multiverseEngine'];
+          spendKeys.forEach(function (k) { merged[k] = num(winner, k); });
+          merged.autoClickers = num(winner, 'autoClickers', 'autoClicker');
           merged.totalClicks = Math.max(num(local, 'totalClicks'), num(snap, 'totalClicks'));
-          // Gambling history only ever grows, so the protective merge
-          // keeps whichever side has the bigger lifetime totals.
           merged.gamblingWon = Math.max(num(local, 'gamblingWon'), num(snap, 'gamblingWon'));
           merged.gamblingLost = Math.max(num(local, 'gamblingLost'), num(snap, 'gamblingLost'));
-          var skins = [];
-          [local.unlockedSkins, snap.unlockedSkins].forEach(function (arr) {
-            if (!Array.isArray(arr)) return;
-            arr.forEach(function (s) { if (skins.indexOf(s) === -1) skins.push(s); });
-          });
-          if (skins.indexOf('classic') === -1) skins.unshift('classic');
-          merged.unlockedSkins = skins;
-          if (skins.indexOf(merged.equippedSkin) === -1) merged.equippedSkin = local.equippedSkin;
+          // Identity stays this device's own — a merged snapshot
+          // never renames the player or changes their identity.
+          merged.playerId = local.playerId;
+          merged.playerName = local.playerName;
+          merged.badge = local.badge;
+          merged.adminSkinGranted = local.adminSkinGranted;
+          if (!Array.isArray(merged.unlockedSkins) || merged.unlockedSkins.indexOf(merged.equippedSkin) === -1) {
+            merged.equippedSkin = 'classic';
+          }
           return merged;
         }
 
@@ -8021,9 +8286,10 @@
         // localStorage + window.name, repaint everything, and sync
         // the leaderboard row for the (possibly new) playerId.
         // opts.protect routes the snapshot through
-        // mergeSnapshotProtect first, so the apply can never lower
-        // the player's Tungs or upgrades below what they already
-        // have on this device.
+        // mergeSnapshotProtect first, which picks ONE whole
+        // timeline (local or cloud) by progress score — automatic
+        // applies can never combine two timelines into more than
+        // either one honestly held.
         function applyCloudSave(snap, sourceId, opts) {
           if (!snap || typeof snap !== 'object') return false;
           if (opts && opts.protect) snap = mergeSnapshotProtect(snap);
@@ -8043,17 +8309,22 @@
             storageSet(LB_PUBLISHED_KEY, '');
           }
           if (typeof snap.playerName === 'string' && snap.playerName) {
-            playerName = snap.playerName.slice(0, 16);
-            storageSet(LB_NAME_KEY, playerName);
+            var incomingName = snap.playerName.slice(0, 16);
+            // The Sooks2013 nickname IS the admin key, so a save
+            // carrying that name is only honoured for a player who
+            // already holds it on this device — a copied save can
+            // never hand anyone the admin identity.
+            if (!isAdminName(incomingName) || isAdmin()) {
+              playerName = incomingName;
+              storageSet(LB_NAME_KEY, playerName);
+            }
           }
-          if (snap.badge === 'admin' || snap.badge === 'mod') {
-            myBadge = snap.badge;
-            storageSet(BADGE_KEY, myBadge);
-          }
-          if (snap.adminSkinGranted === true && !adminSkinGranted) {
-            adminSkinGranted = true;
-            storageSet(ADMIN_SKIN_KEY, '1');
-          }
+          // Badges and the Admin Tung Tung grant are NEVER taken
+          // from a save payload (cloud snapshot or save string).
+          // They are handed out only through the Admin Board's
+          // Firebase commands (/adminActions setBadge / adminSkin),
+          // so no copied, restored or edited save can promote a
+          // player to ADMIN or unlock the board's Give Tungs.
           cloudRestoreChecked = true;
           saveGame();
           renderTungs();
@@ -8109,13 +8380,18 @@
         // ---------- Sync / Backup Save screen ----------
         function encodeSaveString() {
           try {
-            return 'TTC1.' + btoa(unescape(encodeURIComponent(JSON.stringify(buildCloudSnapshot()))));
+            return 'TTC2.' + btoa(unescape(encodeURIComponent(JSON.stringify(buildCloudSnapshot()))));
           } catch (e) { return ''; }
         }
         function decodeSaveString(str) {
           try {
             var s = String(str || '').trim().replace(/\s+/g, '');
-            if (s.indexOf('TTC1.') === 0) s = s.slice(5);
+            // Only the sealed TTC2 format decodes. The old TTC1
+            // strings were unsigned plain JSON — anyone could edit
+            // the balance inside one — so they are refused outright
+            // by the import handler below.
+            if (s.indexOf('TTC2.') !== 0) return null;
+            s = s.slice(5);
             var obj = JSON.parse(decodeURIComponent(escape(atob(s))));
             return (obj && typeof obj === 'object') ? obj : null;
           } catch (e) { return null; }
@@ -8158,36 +8434,28 @@
         }
         async function restoreFromCloudInput() {
           var input = syncRestoreInput ? syncRestoreInput.value.trim() : '';
-          if (!input) { syncSetStatus('Paste your Player ID (or type your nickname) first!', true); return; }
+          if (!input) { syncSetStatus('Paste your Player ID first!', true); return; }
           if (syncRestoreBtn) syncRestoreBtn.disabled = true;
           syncSetStatus('Searching the cloud for your save…');
-          var foundId = input;
+          // Player ID only — nicknames are public on the leaderboard,
+          // so restoring by nickname let anyone pull (and spend) any
+          // player's cloud save just by typing their name. The ID is
+          // the recovery code: only someone holding the exact ID can
+          // restore its save.
           var snap = await fetchCloudSave(input);
-          if (!snap) {
-            // Maybe they typed their nickname instead of the ID:
-            // find their leaderboard row by exact name, then pull
-            // that row's cloud save.
-            try {
-              var res = await fetch(LB_BASE + '/leaderboard.json');
-              if (res.ok) {
-                var board = await res.json();
-                if (board && typeof board === 'object') {
-                  var want = input.toLowerCase();
-                  Object.keys(board).forEach(function (id) {
-                    var p = board[id];
-                    if (p && typeof p.name === 'string' && p.name.trim().toLowerCase() === want) foundId = id;
-                  });
-                }
-              }
-            } catch (e) { /* offline — reported below as not found */ }
-            if (foundId !== input) snap = await fetchCloudSave(foundId);
-          }
           if (syncRestoreBtn) syncRestoreBtn.disabled = false;
           if (!snap) {
-            syncSetStatus('No cloud save found for "' + input + '" — check it and try again.', true);
+            syncSetStatus('No cloud save found for that Player ID — check it and try again.', true);
             return;
           }
-          if (applyCloudSave(snap, foundId)) {
+          // The save must carry the game's integrity seal. A backup
+          // written by an older version (or written by hand) can't
+          // be verified, so it is refused rather than applied.
+          if (!snapshotSigValid(snap)) {
+            syncSetStatus("That cloud save can't be verified — it was backed up by an older version. Open the game once on the device that made the backup (it re-saves securely), then restore again.", true);
+            return;
+          }
+          if (applyCloudSave(snap, input)) {
             syncSetStatus('✅ Save restored — welcome back! Your progress is live again.');
             refreshSyncPanel();
           } else {
@@ -8221,9 +8489,14 @@
           copyTextToClipboard(syncExportText ? syncExportText.value : '', '📋 Save string copied — keep it somewhere safe!');
         });
         if (syncImportBtn) syncImportBtn.addEventListener('click', function () {
-          var obj = decodeSaveString(syncImportText ? syncImportText.value : '');
-          if (!obj) {
-            syncSetStatus('That save string could not be read — paste the whole thing and try again.', true);
+          var rawStr = syncImportText ? syncImportText.value : '';
+          if (String(rawStr || '').trim().indexOf('TTC1.') === 0) {
+            syncSetStatus("That save string is the old unsigned format and can't be verified — copy a fresh save string from the updated game and import that instead.", true);
+            return;
+          }
+          var obj = decodeSaveString(rawStr);
+          if (!obj || !snapshotSigValid(obj)) {
+            syncSetStatus("That save string could not be verified — it may have been edited or cut off. Paste the whole string exactly as it was copied.", true);
             return;
           }
           if (applyCloudSave(obj, obj.playerId)) {
@@ -8457,7 +8730,11 @@
             + Math.floor(Number(d.midnightEchoes) || 0)
             + Math.floor(Number(d.nightSkyPatrol) || 0)
             + Math.floor(Number(d.nebulaPulse) || 0)
-            + Math.floor(Number(d.galacticFactory) || 0);
+            + Math.floor(Number(d.galacticFactory) || 0)
+            + Math.floor(Number(d.voidBatSmash) || 0)
+            + Math.floor(Number(d.omegaTungStrike) || 0)
+            + Math.floor(Number(d.starlightHarvesters) || 0)
+            + Math.floor(Number(d.multiverseEngine) || 0);
           var sk = Array.isArray(d.unlockedSkins) ? d.unlockedSkins.length : 0;
           return t + up * 100 + sk * 250;
         }
