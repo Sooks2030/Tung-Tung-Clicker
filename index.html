@@ -4246,46 +4246,46 @@
               <div class="shop-card-icon" aria-hidden="true">💫</div>
               <div class="shop-card-info">
                 <div class="shop-card-name">Supernova Slam</div>
-                <div class="shop-card-desc">A slam so bright it outshines the supernova itself! Every manual click earns +1M extra Tungs for each one you own.</div>
-                <div class="shop-card-meta" id="slamMeta">Owned: 0 &nbsp;•&nbsp; +1M Click Power each</div>
+                <div class="shop-card-desc">A slam so bright it outshines the supernova itself! Every manual click earns +2M extra Tungs for each one you own.</div>
+                <div class="shop-card-meta" id="slamMeta">Owned: 0 &nbsp;•&nbsp; +2M Click Power each</div>
               </div>
-              <button class="shop-buy-btn" id="buySlamBtn" type="button">Buy — 25M Tungs</button>
+              <button class="shop-buy-btn" id="buySlamBtn" type="button">Buy — 1B Tungs</button>
             </div>
             <div class="shop-card">
               <div class="shop-card-icon" aria-hidden="true">⚛️</div>
               <div class="shop-card-info">
                 <div class="shop-card-name">Galactic Sahur Reactor</div>
-                <div class="shop-card-desc">A reactor burning at the heart of the galaxy, minting Tungs around the clock! Automatically earns +4M Tungs every second for each one you own.</div>
-                <div class="shop-card-meta" id="reactorMeta">Owned: 0 &nbsp;•&nbsp; +4M TTPS each</div>
+                <div class="shop-card-desc">A reactor burning at the heart of the galaxy, minting Tungs around the clock! Automatically earns +8M Tungs every second for each one you own.</div>
+                <div class="shop-card-meta" id="reactorMeta">Owned: 0 &nbsp;•&nbsp; +8M TTPS each</div>
               </div>
-              <button class="shop-buy-btn" id="buyReactorBtn" type="button">Buy — 50M Tungs</button>
+              <button class="shop-buy-btn" id="buyReactorBtn" type="button">Buy — 2.5B Tungs</button>
             </div>
             <div class="shop-card">
               <div class="shop-card-icon" aria-hidden="true">🕳️</div>
               <div class="shop-card-info">
                 <div class="shop-card-name">Black Hole Singularity</div>
-                <div class="shop-card-desc">A singularity that bends every swing — and every second — toward more Tungs! Every manual click earns +2.5M extra Tungs AND you automatically earn +5M Tungs every second, for each one you own.</div>
-                <div class="shop-card-meta" id="blackHoleMeta">Owned: 0 &nbsp;•&nbsp; +2.5M per tap AND +5M TTPS each</div>
+                <div class="shop-card-desc">A singularity that bends every swing — and every second — toward more Tungs! Every manual click earns +5M extra Tungs AND you automatically earn +10M Tungs every second, for each one you own.</div>
+                <div class="shop-card-meta" id="blackHoleMeta">Owned: 0 &nbsp;•&nbsp; +5M per tap AND +10M TTPS each</div>
               </div>
-              <button class="shop-buy-btn" id="buyBlackHoleBtn" type="button">Buy — 150M Tungs</button>
+              <button class="shop-buy-btn" id="buyBlackHoleBtn" type="button">Buy — 10B Tungs</button>
             </div>
             <div class="shop-card">
               <div class="shop-card-icon" aria-hidden="true">🔮</div>
               <div class="shop-card-info">
                 <div class="shop-card-name">Quantum Tung Collider</div>
-                <div class="shop-card-desc">Smash two Tungs together at light speed and get a fortune out! Every manual click earns +10M extra Tungs for each one you own.</div>
-                <div class="shop-card-meta" id="quantumMeta">Owned: 0 &nbsp;•&nbsp; +10M Click Power each</div>
+                <div class="shop-card-desc">Smash two Tungs together at light speed and get a fortune out! Every manual click earns +20M extra Tungs for each one you own.</div>
+                <div class="shop-card-meta" id="quantumMeta">Owned: 0 &nbsp;•&nbsp; +20M Click Power each</div>
               </div>
-              <button class="shop-buy-btn" id="buyQuantumBtn" type="button">Buy — 750M Tungs</button>
+              <button class="shop-buy-btn" id="buyQuantumBtn" type="button">Buy — 50B Tungs</button>
             </div>
             <div class="shop-card">
               <div class="shop-card-icon" aria-hidden="true">👑</div>
               <div class="shop-card-info">
                 <div class="shop-card-name">Multiverse Sahur Overlord</div>
-                <div class="shop-card-desc">Rule every Sahur in every universe! Automatically earns +100M Tungs every second AND adds +10% to your global multiplier — multiplying ALL Click Power and TTPS — for each one you own.</div>
-                <div class="shop-card-meta" id="overlordMeta">Owned: 0 &nbsp;•&nbsp; +100M TTPS and +10% global multiplier each</div>
+                <div class="shop-card-desc">Rule every Sahur in every universe! Automatically earns +200M Tungs every second AND adds +10% to your global multiplier — multiplying ALL Click Power and TTPS — for each one you own.</div>
+                <div class="shop-card-meta" id="overlordMeta">Owned: 0 &nbsp;•&nbsp; +200M TTPS and +10% global multiplier each</div>
               </div>
-              <button class="shop-buy-btn" id="buyOverlordBtn" type="button">Buy — 25B Tungs</button>
+              <button class="shop-buy-btn" id="buyOverlordBtn" type="button">Buy — 250B Tungs</button>
             </div>
           </section>
           <p class="shop-error" id="shopError" role="alert"></p>
@@ -5606,11 +5606,11 @@
         function multiverseCost() { return discountedCost(Math.floor(12000000 * Math.pow(1.35, multiverseEngine))); }
         // Endgame wave — same 1.35x scaling, priced and powered
         // above the Void / Omega / Starlight / Multiverse tiers.
-        function slamCost() { return discountedCost(Math.floor(100000000 * Math.pow(1.35, supernovaSlam))); }
-        function reactorCost() { return discountedCost(Math.floor(250000000 * Math.pow(1.35, galacticReactor))); }
-        function blackHoleCost() { return discountedCost(Math.floor(1000000000 * Math.pow(1.35, blackHoleSingularity))); }
-        function quantumCost() { return discountedCost(Math.floor(5000000000 * Math.pow(1.35, quantumCollider))); }
-        function overlordCost() { return discountedCost(Math.floor(25000000000 * Math.pow(1.35, sahurOverlord))); }
+        function slamCost() { return discountedCost(Math.floor(1000000000 * Math.pow(1.35, supernovaSlam))); }
+        function reactorCost() { return discountedCost(Math.floor(2500000000 * Math.pow(1.35, galacticReactor))); }
+        function blackHoleCost() { return discountedCost(Math.floor(10000000000 * Math.pow(1.35, blackHoleSingularity))); }
+        function quantumCost() { return discountedCost(Math.floor(50000000000 * Math.pow(1.35, quantumCollider))); }
+        function overlordCost() { return discountedCost(Math.floor(250000000000 * Math.pow(1.35, sahurOverlord))); }
         // Rebirth upgrade-cost discount: -1% per Rebirth, capped at
         // -25%. EVERY upgrade cost routes through discountedCost(), so
         // the discount applies game-wide the moment a Rebirth lands.
@@ -5706,39 +5706,41 @@
         // Clocks +20, Factories +200, Drum Crew +20, Midnight Echoes
         // +90, Night Sky Patrol +400, Nebula Pulse +1,900, Galactic
         // Factory +9,600, Starlight Harvesters +50,000, Multiverse
-        // Tung Engine +240,000, Galactic Sahur Reactor +4,000,000,
-        // Black Hole Singularity +5,000,000, Multiverse Sahur Overlord
-        // +100,000,000 — each per second, all times the TTPS global
-        // multiplier (Overlord x Rebirth TTPS perk). Every per-second
-        // bonus was DOUBLED (base costs and 1.35x scaling unchanged),
-        // and the five Endgame upgrades' bonuses were later multiplied
-        // by 10x (base costs and 1.35x scaling unchanged again) — so
-        // Black Hole Singularity's tap half is +2,500,000 and the
-        // Overlord's global multiplier is +10% per level.
+        // Tung Engine +240,000, Galactic Sahur Reactor +8,000,000,
+        // Black Hole Singularity +10,000,000, Multiverse Sahur
+        // Overlord +200,000,000 — each per second, all times the TTPS
+        // global multiplier (Overlord x Rebirth TTPS perk). Every
+        // per-second bonus was DOUBLED (base costs and 1.35x scaling
+        // unchanged), and the five Endgame upgrades' bonuses were
+        // later multiplied by 10x and then doubled again, with their
+        // base costs raised 10x (1.35x scaling unchanged throughout)
+        // — so Black Hole Singularity's tap half is +5,000,000 and
+        // the Overlord's global multiplier is +10% per level.
         function totalTPS() {
           var base = autoLevel * 2 + alarmClocks * 20 + factories * 200
             + sahurDrumCrew * 20 + midnightEchoes * 90 + nightSkyPatrol * 400
             + nebulaPulse * 1900 + galacticFactory * 9600
             + starlightHarvesters * 50000 + multiverseEngine * 240000
-            + galacticReactor * 4000000 + blackHoleSingularity * 5000000
-            + sahurOverlord * 100000000;
+            + galacticReactor * 8000000 + blackHoleSingularity * 10000000
+            + sahurOverlord * 200000000;
           return Math.floor(base * tpsGlobalMultiplier());
         }
         // Manual click power: 1 base + Drumstick +1, Reinforced Grip
         // +5, Titanium Core +25, Meteorite Swing +120, Cosmic
         // Shockwave +600, Supernova Tap +3,000, Void Bat Smash
         // +15,000, Omega Tung Strike +75,000, Supernova Slam
-        // +1,000,000, Black Hole Singularity +2,500,000, Quantum Tung
-        // Collider +10,000,000 — each per tap, all times the Click
+        // +2,000,000, Black Hole Singularity +5,000,000, Quantum Tung
+        // Collider +20,000,000 — each per tap, all times the Click
         // global multiplier (Overlord x Rebirth click perk). The
         // three Endgame tap bonuses shown here were multiplied by
-        // 10x (base costs and 1.35x scaling unchanged).
+        // 10x and then doubled again; their base costs were raised
+        // 10x (1.35x scaling unchanged).
         function clickPower() {
           var base = 1 + clickUpgrades + reinforcedGrip * 5 + titaniumCore * 25
             + meteoriteSwing * 120 + cosmicShockwave * 600 + supernovaTap * 3000
             + voidBatSmash * 15000 + omegaTungStrike * 75000
-            + supernovaSlam * 1000000 + blackHoleSingularity * 2500000
-            + quantumCollider * 10000000;
+            + supernovaSlam * 2000000 + blackHoleSingularity * 5000000
+            + quantumCollider * 20000000;
           // Multiplied power first, THEN the equipped EXOTIC skin's
           // flat +300 Click Power on top — never multiplied.
           return Math.floor(base * clickGlobalMultiplier()) + skinFlatClickBonus();
@@ -6178,15 +6180,15 @@
           if (buyStarlightBtn) { buyStarlightBtn.textContent = 'Buy — ' + fmtNum(starlightCost()) + ' Tungs'; buyStarlightBtn.disabled = tungs < starlightCost(); }
           if (multiverseMetaEl) multiverseMetaEl.textContent = 'Owned: ' + multiverseEngine + '  •  +240K TTPS each  •  Current bonus: +' + fmtNum(multiverseEngine * 240000) + ' TTPS';
           if (buyMultiverseBtn) { buyMultiverseBtn.textContent = 'Buy — ' + fmtNum(multiverseCost()) + ' Tungs'; buyMultiverseBtn.disabled = tungs < multiverseCost(); }
-          if (slamMetaEl) slamMetaEl.textContent = 'Owned: ' + supernovaSlam + '  •  +1M Click Power each  •  Current bonus: +' + fmtNum(supernovaSlam * 1000000) + ' per tap';
+          if (slamMetaEl) slamMetaEl.textContent = 'Owned: ' + supernovaSlam + '  •  +2M Click Power each  •  Current bonus: +' + fmtNum(supernovaSlam * 2000000) + ' per tap';
           if (buySlamBtn) { buySlamBtn.textContent = 'Buy — ' + fmtBig(slamCost()) + ' Tungs'; buySlamBtn.disabled = tungs < slamCost(); }
-          if (reactorMetaEl) reactorMetaEl.textContent = 'Owned: ' + galacticReactor + '  •  +4M TTPS each  •  Current bonus: +' + fmtNum(galacticReactor * 4000000) + ' TTPS';
+          if (reactorMetaEl) reactorMetaEl.textContent = 'Owned: ' + galacticReactor + '  •  +8M TTPS each  •  Current bonus: +' + fmtNum(galacticReactor * 8000000) + ' TTPS';
           if (buyReactorBtn) { buyReactorBtn.textContent = 'Buy — ' + fmtBig(reactorCost()) + ' Tungs'; buyReactorBtn.disabled = tungs < reactorCost(); }
-          if (blackHoleMetaEl) blackHoleMetaEl.textContent = 'Owned: ' + blackHoleSingularity + '  •  +2.5M per tap AND +5M TTPS each  •  Current bonus: +' + fmtNum(blackHoleSingularity * 2500000) + ' per tap, +' + fmtNum(blackHoleSingularity * 5000000) + ' TTPS';
+          if (blackHoleMetaEl) blackHoleMetaEl.textContent = 'Owned: ' + blackHoleSingularity + '  •  +5M per tap AND +10M TTPS each  •  Current bonus: +' + fmtNum(blackHoleSingularity * 5000000) + ' per tap, +' + fmtNum(blackHoleSingularity * 10000000) + ' TTPS';
           if (buyBlackHoleBtn) { buyBlackHoleBtn.textContent = 'Buy — ' + fmtBig(blackHoleCost()) + ' Tungs'; buyBlackHoleBtn.disabled = tungs < blackHoleCost(); }
-          if (quantumMetaEl) quantumMetaEl.textContent = 'Owned: ' + quantumCollider + '  •  +10M Click Power each  •  Current bonus: +' + fmtNum(quantumCollider * 10000000) + ' per tap';
+          if (quantumMetaEl) quantumMetaEl.textContent = 'Owned: ' + quantumCollider + '  •  +20M Click Power each  •  Current bonus: +' + fmtNum(quantumCollider * 20000000) + ' per tap';
           if (buyQuantumBtn) { buyQuantumBtn.textContent = 'Buy — ' + fmtBig(quantumCost()) + ' Tungs'; buyQuantumBtn.disabled = tungs < quantumCost(); }
-          if (overlordMetaEl) overlordMetaEl.textContent = 'Owned: ' + sahurOverlord + '  •  +100M TTPS and +10% global multiplier each  •  Current bonus: +' + fmtNum(sahurOverlord * 100000000) + ' TTPS, multiplier now ' + fmtMult(overlordMultiplier());
+          if (overlordMetaEl) overlordMetaEl.textContent = 'Owned: ' + sahurOverlord + '  •  +200M TTPS and +10% global multiplier each  •  Current bonus: +' + fmtNum(sahurOverlord * 200000000) + ' TTPS, multiplier now ' + fmtMult(overlordMultiplier());
           if (buyOverlordBtn) { buyOverlordBtn.textContent = 'Buy — ' + fmtBig(overlordCost()) + ' Tungs'; buyOverlordBtn.disabled = tungs < overlordCost(); }
           if (openCrateBtn) {
             openCrateBtn.textContent = 'Open — 100 Tungs';
@@ -10582,6 +10584,19 @@
           lbRenderYourName();
           lbSyncNow();
           pushCloudSave(true);
+          // A restore can be the moment this device first learns how
+          // long the player has been away: on browsers that wipe
+          // localStorage between visits, the previous session's
+          // lastActiveTime arrives ONLY inside a restored cloud save
+          // (the startup restore above, or the sign-in account link,
+          // which can land seconds after the one-shot startup check
+          // already ran and found no stamp at all). Re-run the
+          // Welcome Back check from the newest stamp now on record —
+          // it stays silent when this load already paid out
+          // (offlinePaidThroughMs) or the gap earns nothing.
+          if (!offlinePaidThroughMs && typeof evaluateOfflineEarnings === 'function') {
+            try { evaluateOfflineEarnings(Math.max(previousLastActiveTime || 0, restoredLastActiveTime || 0)); } catch (e) { /* best-effort */ }
+          }
           return true;
         }
 
@@ -12697,6 +12712,12 @@
         var offlineCapNoteEl = document.getElementById('offlineCapNote');
         var offlineClaimBtn = document.getElementById('offlineClaimBtn');
         var pendingOfflineEarned = 0;
+        // The newest last-activity stamp this page load has already
+        // paid offline earnings for. A restore landing late (the
+        // sign-in / account cloud restore, or a slow startup fetch)
+        // re-runs the check below — this stamp is what stops the
+        // same away gap from ever being paid twice in one load.
+        var offlinePaidThroughMs = 0;
 
         function formatAwayTime(totalSeconds) {
           var s = Math.floor(totalSeconds);
@@ -12724,7 +12745,9 @@
           var effectiveSeconds = Math.min(elapsedSeconds, OFFLINE_CAP_SECONDS);
           var earned = Math.floor(rate * OFFLINE_RATE * effectiveSeconds);
           if (earned <= 0) return;
+          if (baseMs <= offlinePaidThroughMs) return;
           if (!offlineOverlay || !offlineOverlay.hidden) return;
+          offlinePaidThroughMs = baseMs;
           pendingOfflineEarned = earned;
           if (offlineAwayEl) offlineAwayEl.textContent = formatAwayTime(elapsedSeconds);
           if (offlineEarnedEl) offlineEarnedEl.textContent = lbFmt(earned);
@@ -12767,6 +12790,53 @@
             }
           }, 250);
         })();
+
+        // ---------- Screen Wake Lock ----------
+        // Keep the phone's screen awake while the game is open, so
+        // it never auto-locks mid-play. Requested on load and again
+        // on the first tap (some browsers only grant it after a user
+        // gesture), re-requested whenever the browser takes it back
+        // (the lock's release event) and whenever the page becomes
+        // visible again after being hidden. Released when the page
+        // hides or closes (the browser also auto-releases then).
+        // Browsers without the Screen Wake Lock API skip all of this
+        // silently — no error, no change to the game.
+        var screenWakeLock = null;
+        function requestScreenWakeLock() {
+          if (!('wakeLock' in navigator) || !navigator.wakeLock || typeof navigator.wakeLock.request !== 'function') return;
+          if (document.visibilityState === 'hidden') return;
+          if (screenWakeLock) return;
+          try {
+            var req = navigator.wakeLock.request('screen');
+            if (req && typeof req.then === 'function') {
+              req.then(function (lock) {
+                screenWakeLock = lock;
+                if (lock && typeof lock.addEventListener === 'function') {
+                  lock.addEventListener('release', function () {
+                    screenWakeLock = null;
+                    // Taken back while the game is still open and
+                    // on screen (e.g. a battery-saver intervention):
+                    // ask for it again.
+                    if (document.visibilityState === 'visible') requestScreenWakeLock();
+                  });
+                }
+              }).catch(function () { /* refused (no gesture yet / battery saver) — the next tap or return retries */ });
+            }
+          } catch (e) { /* unsupported — silent */ }
+        }
+        function releaseScreenWakeLock() {
+          if (!screenWakeLock) return;
+          var lock = screenWakeLock;
+          screenWakeLock = null;
+          try { lock.release(); } catch (e) { /* already gone — fine */ }
+        }
+        requestScreenWakeLock();
+        document.addEventListener('pointerdown', function () { requestScreenWakeLock(); }, { once: true });
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') requestScreenWakeLock();
+          else releaseScreenWakeLock();
+        });
+        window.addEventListener('pagehide', releaseScreenWakeLock);
 
         // Initial paint for TPS / shop state. enforceAdminSkinAccess
         // runs first so a save restored with Admin Tung Tung is only
