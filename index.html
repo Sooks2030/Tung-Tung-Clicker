@@ -120,6 +120,15 @@
         -webkit-touch-callout: none;
       }
       .tung-btn img {
+        /* iOS Safari: a long press that lands ON an <img> pops the
+           image up in its save/share preview sheet, and
+           -webkit-touch-callout: none alone does not reliably stop
+           it. Making the image untouchable means a hold only ever
+           hits the button underneath it, which has no image callout
+           to show. The button still gets every pointer event (they
+           land on it directly), and the squash animation / rect
+           reads on the img are unaffected. */
+        pointer-events: none;
         -webkit-touch-callout: none;
         -webkit-user-drag: none;
         user-select: none;
@@ -6767,6 +6776,14 @@
         });
         // Long-press must not pop the browser's context menu either.
         btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+        // iOS Safari belt-and-suspenders: canceling the raw touch
+        // stops Safari from starting its long-press image preview /
+        // callout on the character at all. pointerdown (registered
+        // above) fires before touchstart, so hold-to-click is
+        // unaffected; the synthetic click is already preventDefaulted
+        // below, and touch-action: none on the button already owns
+        // scrolling, so nothing else needs this event to go through.
+        btn.addEventListener('touchstart', function (e) { e.preventDefault(); }, { passive: false });
 
         // Keyboard players (Enter / Space on the focused character) get the
         // +1 at the middle of the log instead of a click point.
@@ -7211,10 +7228,9 @@
           // the player has it (cheaterLocked — it stays force-equipped
           // below and skin switching stays locked); Admin, only for
           // admins (badge === 'admin' / Sooks2013 / board grant —
-          // hasAdminSkinAccess()); Mod, only for mod-badge holders /
-          // board grants (hasModSkinAccess()); and Tung Tung Wizard
-          // (EXOTIC) — the rarest drop in the game is never wiped.
-          // Every other skin is removed, to be
+          // hasAdminSkinAccess()); and Mod, only for mod-badge holders /
+          // board grants (hasModSkinAccess()). Every crate skin is
+          // removed — including EXOTIC Tung Tung Wizard — to be
           // re-earned from crates. The Rebirth milestone skin is
           // wiped too, but enforceRebirthSkinAccess() right below
           // re-grants it immediately when total Rebirths is 5+, so
@@ -7226,11 +7242,9 @@
           if (hasSkin('cheater')) keepSkins.push('cheater');
           if (hasAdminSkinAccess() && hasSkin('admin')) keepSkins.push('admin');
           if (hasModSkinAccess() && hasSkin('mod')) keepSkins.push('mod');
-          // Tung Tung Wizard (EXOTIC) is never wiped by Rebirth —
-          // the rarest drop in the game survives like the role skins.
-          if (hasSkin('wizard')) keepSkins.push('wizard');
-          // Capy Tung Tung is a normal EPIC crate skin now, so it is
-          // wiped by Rebirth like Glitch and the other crate skins.
+          // Tung Tung Wizard (EXOTIC) and Capy Tung Tung (EPIC) are
+          // crate skins, so Rebirth wipes them like every other crate
+          // skin — no rarity is exempt from the reset.
           unlockedSkins = keepSkins;
           equippedSkin = cheaterLocked ? 'cheater' : 'classic';
           // …and the new run starts at 0 Tungs — no starting bonus.
