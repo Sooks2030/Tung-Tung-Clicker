@@ -7857,7 +7857,7 @@
           clockwork:   { hp: 330, dmg: 62, def: 32, spd: 73, sp: { name: 'Overclock', kind: 'hasteTeam' } },
           wizard:      { hp: 520, dmg: 120, def: 44, spd: 62, sp: { name: 'Arcane Meteor', kind: 'dmg', mult: 2.4 } },
           mod:         { hp: 560, dmg: 110, def: 48, spd: 55, sp: { name: 'Ban Hammer', kind: 'stun', mult: 1.3 } },
-          admin:       { hp: 620, dmg: 125, def: 52, spd: 69, sp: { name: 'Royal Decree', kind: 'decree', mult: 1.8 } },
+          admin:       { hp: 10, dmg: 1, def: 0, spd: 1, sp: { name: 'Crown Polish', kind: 'noop' } },
           cheater:     { hp: 180, dmg: 35, def: 14, spd: 51, sp: { name: 'Cheap Shot', kind: 'pierce', mult: 1.2 } }
         };
         var BATTLE_RARITY = {
@@ -7876,11 +7876,11 @@
           easy: ['classic', 'snowboarder', 'silver', 'golden', 'frost', 'swamp'],
           normal: ['evil', 'zombie', 'angel', 'alien', 'glitch', 'capy'],
           hard: ['galaxy', 'rebirth', 'moon', 'clockwork'],
-          boss: ['wizard', 'mod', 'admin']
+          boss: ['wizard', 'mod', 'moon', 'clockwork', 'galaxy']
         };
         // Specials that need no tapped target — they fire the
         // moment the Special button is tapped.
-        var BATTLE_IMMEDIATE_SPECIALS = { healTeam: 1, shieldTeam: 1, hasteTeam: 1, aoe: 1, aoeHeal: 1 };
+        var BATTLE_IMMEDIATE_SPECIALS = { healTeam: 1, shieldTeam: 1, hasteTeam: 1, aoe: 1, aoeHeal: 1, noop: 1 };
 
         var battleDifficulty = 'easy';
         var battlePicked = [];
@@ -7997,7 +7997,7 @@
             card.appendChild(stats);
             var spec = document.createElement('span');
             spec.className = 'battle-pick-special';
-            spec.textContent = '✦ ' + st.sp.name;
+            spec.textContent = '✦ ' + st.sp.name + (st.sp.kind === 'noop' ? ' — does nothing' : '');
             card.appendChild(spec);
             card.addEventListener('click', function () { toggleBattlePick(id); });
             battleTeamGrid.appendChild(card);
@@ -8193,6 +8193,14 @@
         function battleUseSpecial(att, target) {
           var sp = att.sp;
           att.cd = 2; // every Special Move: 2-turn cooldown
+          if (sp.kind === 'noop') {
+            // Crown Polish (Admin Tung Tung): literally nothing
+            // happens — no damage, no heal, no buff, no status.
+            // The turn (and the cooldown) is simply spent.
+            battleLog('Admin Tung Tung polished its crown. Nothing happened.');
+            updateAllBattleUnits();
+            return;
+          }
           var buffMult = att.buff > 0 ? 1.25 : 1;
           var foes = (att.side === 'player' ? B.enemies : B.players).filter(function (x) { return x.alive; });
           var allies = (att.side === 'player' ? B.players : B.enemies).filter(function (x) { return x.alive; });
@@ -8249,10 +8257,9 @@
               battleLog(sp.name + ' ignored ' + target.name + "'s DEF completely!");
               break;
             }
-            case 'decree': {
-              battleDealDamage(att, target, att.dmg * sp.mult * buffMult, {});
-              allies.forEach(function (a) { a.buff = 1; a.buffRound = B.round; updateBattleUnit(a); });
-              battleLog("Royal Decree! " + att.name + "'s whole team deals +25% damage for 2 rounds!");
+            case 'noop': {
+              // Unreachable (handled above) — kept so the switch
+              // stays exhaustive: Crown Polish does nothing.
               break;
             }
             case 'aoe': {
@@ -8289,7 +8296,13 @@
 
         // ---------- Turn flow ----------
         function pickEnemySquad(diff) {
-          if (diff === 'boss') return BATTLE_POOLS.boss.slice(); // Wizard + Mod + Admin
+          if (diff === 'boss') {
+            // Wizard + Mod + one top-tier Mythic/Secret skin.
+            // Admin Tung Tung is deliberately NOT in Boss squads —
+            // its stripped stats would make Boss trivially weak.
+            var third = ['moon', 'clockwork', 'galaxy'][Math.floor(Math.random() * 3)];
+            return ['wizard', 'mod', third];
+          }
           var pool = BATTLE_POOLS[diff].slice();
           var squad = [];
           while (squad.length < 3 && pool.length) {
@@ -8652,7 +8665,7 @@
           card.appendChild(stats);
           var spec = document.createElement('span');
           spec.className = 'battle-pick-special';
-          spec.textContent = '✦ ' + st.sp.name;
+          spec.textContent = '✦ ' + st.sp.name + (st.sp.kind === 'noop' ? ' — does nothing' : '');
           card.appendChild(spec);
           card.addEventListener('click', function () { onTap(id); });
           return card;
