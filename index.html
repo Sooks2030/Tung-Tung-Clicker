@@ -2932,6 +2932,49 @@
       .crate-done-btn { margin-top: 1rem; appearance: none; font: inherit; font-weight: 900; padding: 0.8rem 2rem; min-height: 2rem; border-radius: 999px; border: 3px solid #3a2205; background: linear-gradient(180deg, #ff9e00 0%, #f76707 100%); color: #fff; cursor: pointer; box-shadow: 0 6px 0 #3a2205; }
       .crate-done-btn[hidden] { display: none; }
 
+      /* ---------- Multi-open: "How Many?" quantity prompt ---------- */
+      .crate-qty-overlay { position: fixed; inset: 0; z-index: 39; background: rgba(2,5,18,0.78); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; transition: opacity 0.22s ease; }
+      .crate-qty-overlay[hidden] { display: none; }
+      .crate-qty-overlay.open { opacity: 1; }
+      .crate-qty-panel { width: min(92vw, 380px); padding: 1.5rem 1.3rem 1.6rem; border-radius: 22px; background: repeating-linear-gradient(93deg, rgba(0,0,0,0.06) 0 3px, rgba(0,0,0,0) 3px 13px), linear-gradient(180deg, #8a5525 0%, #54300d 100%); border: 3px solid #e9c25e; box-shadow: 0 0 44px rgba(255,200,20,0.3), 0 26px 60px rgba(0,0,0,0.65); text-align: center; color: #fff6dd; transform: scale(0.92) translateY(10px); transition: transform 0.24s cubic-bezier(0.34,1.4,0.64,1); }
+      .crate-qty-overlay.open .crate-qty-panel { transform: scale(1) translateY(0); }
+      .crate-qty-icon { font-size: 3rem; line-height: 1; margin-bottom: 0.3rem; }
+      .crate-qty-crate-name { margin: 0.2rem 0 1rem; font-weight: 800; color: #ffe9a8; }
+      .crate-qty-row { display: flex; gap: 0.6rem; justify-content: center; align-items: stretch; }
+      .crate-qty-input { width: 8.5rem; font: inherit; font-size: 1.5rem; font-weight: 900; text-align: center; color: #3a2205; background: linear-gradient(180deg, #fff8dc 0%, #ffe9a8 100%); border: 3px solid #5f3712; border-radius: 14px; padding: 0.5rem 0.4rem; box-shadow: inset 0 3px 0 rgba(46,24,2,0.25); font-variant-numeric: tabular-nums; }
+      .crate-qty-input:focus { outline: 3px solid #ffd60a; outline-offset: 2px; }
+      .crate-qty-max-btn { appearance: none; font: inherit; font-weight: 900; font-size: 1.05rem; padding: 0.5rem 1.1rem; border-radius: 14px; border: 3px solid #3a2205; background: linear-gradient(180deg, #ffd60a 0%, #ffb700 100%); color: #3a2205; cursor: pointer; box-shadow: 0 5px 0 #3a2205; }
+      .crate-qty-max-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #3a2205; }
+      .crate-qty-cost { margin: 1rem 0 0.15rem; font-size: 1.25rem; font-weight: 900; color: #ffd60a; text-shadow: 0 2px 0 rgba(46,24,2,0.8); font-variant-numeric: tabular-nums; }
+      .crate-qty-balance { margin: 0; font-weight: 700; color: #ffe9a8; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+      .crate-qty-warn { margin: 0.7rem 0 0; font-weight: 900; color: #ffb3ab; background: rgba(153,27,27,0.45); border: 2px solid #f87171; border-radius: 10px; padding: 0.45rem 0.6rem; }
+      .crate-qty-warn[hidden] { display: none; }
+      .crate-qty-actions { display: flex; gap: 0.7rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+      .crate-qty-open-btn { appearance: none; font: inherit; font-weight: 900; font-size: 1.05rem; padding: 0.8rem 1.9rem; min-height: 2rem; border-radius: 999px; border: 3px solid #3a2205; background: linear-gradient(180deg, #ff9e00 0%, #f76707 100%); color: #fff; cursor: pointer; box-shadow: 0 6px 0 #3a2205; }
+      .crate-qty-open-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #3a2205; }
+      .crate-qty-open-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+      .crate-qty-cancel-btn { appearance: none; font: inherit; font-weight: 900; font-size: 1.05rem; padding: 0.8rem 1.6rem; min-height: 2rem; border-radius: 999px; border: 3px solid #3a2205; background: repeating-linear-gradient(93deg, rgba(0,0,0,0.07) 0 3px, rgba(0,0,0,0) 3px 11px), linear-gradient(180deg, #b57a36 0%, #8a5525 55%, #6b3d13 100%); color: #fff6dd; text-shadow: 0 1px 0 rgba(46,24,2,0.75); cursor: pointer; box-shadow: 0 6px 0 #3a2205; }
+      .crate-qty-cancel-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #3a2205; }
+
+      /* ---------- Multi-open: Unbox Summary ---------- */
+      .crate-multi-overlay { position: fixed; inset: 0; z-index: 39; background: rgba(2,5,18,0.82); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; transition: opacity 0.22s ease; }
+      .crate-multi-overlay[hidden] { display: none; }
+      .crate-multi-overlay.open { opacity: 1; }
+      .crate-multi-panel { max-height: 90dvh; display: flex; flex-direction: column; }
+      .crate-multi-sub { margin: 0.1rem 0 0.9rem; font-weight: 800; color: #ffe9a8; }
+      .crate-multi-list { display: flex; flex-direction: column; gap: 0.55rem; overflow-y: auto; text-align: left; padding-right: 0.15rem; }
+      .crate-multi-row { display: flex; align-items: center; gap: 0.7rem; background: linear-gradient(180deg, #fff8dc 0%, #ffe9a8 100%); border: 3px solid #5f3712; border-radius: 14px; padding: 0.5rem 0.75rem; color: #3a2205; box-shadow: 0 5px 0 rgba(46,24,2,0.5); }
+      .crate-multi-row.is-new { border-color: #b97e0c; box-shadow: 0 0 14px rgba(255,214,10,0.75), 0 5px 0 rgba(46,24,2,0.5); }
+      .crate-multi-thumb { width: 38px; height: 50px; flex: none; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+      .crate-multi-thumb img { height: 50px; width: auto; max-width: 38px; object-fit: contain; display: block; }
+      .crate-multi-thumb img.golden-preview { filter: sepia(0.9) saturate(3.2) hue-rotate(2deg) brightness(1.18) drop-shadow(0 0 8px rgba(255,200,20,0.8)); }
+      .crate-multi-thumb img.galaxy-preview { filter: drop-shadow(0 0 8px rgba(217,70,239,0.9)); }
+      .crate-multi-name { font-weight: 900; font-size: 0.98rem; line-height: 1.15; }
+      .crate-multi-new-tag { flex: none; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.06em; padding: 0.14rem 0.5rem; border-radius: 999px; border: 2px solid #065f46; color: #ffffff; background: linear-gradient(180deg, #34d399 0%, #059669 100%); text-shadow: 0 1px 0 rgba(0,0,0,0.4); box-shadow: 0 0 10px rgba(52,211,153,0.8); }
+      .crate-multi-count { margin-left: auto; flex: none; font-weight: 900; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+      .crate-multi-refund { margin: 0.9rem 0 0; font-weight: 900; color: #ffd60a; text-shadow: 0 2px 0 rgba(46,24,2,0.8); font-variant-numeric: tabular-nums; }
+      .crate-multi-refund[hidden] { display: none; }
+
       /* ---------- Manual Save button (bottom-left, main screen) ---------- */
       .save-btn-main {
         position: fixed;
@@ -3041,7 +3084,7 @@
         .coinflip-overlay, .cf-coin, .cf-result { transition: none; }
         .bj-overlay, .bj-result, .bankrupt-overlay { transition: none; }
         .pcard, .jumpscare-img, .jumpscare-text, .bankrupt-img, .violent-shake, .loss-flash.show, .mythical-flash.show, .alien-flash.show, .silver-flash.show, .glitch-flash.show, .frost-flash.show, .swamp-flash.show { animation: none; }
-        .shop-overlay, .shop-panel, .skins-overlay, .odds-overlay, .odds-panel, .crate-overlay, .crate-box.spinning, .crate-reveal, .offline-overlay { transition: none; animation: none; }
+        .shop-overlay, .shop-panel, .skins-overlay, .odds-overlay, .odds-panel, .crate-overlay, .crate-box.spinning, .crate-reveal, .offline-overlay, .crate-qty-overlay, .crate-qty-panel, .crate-multi-overlay { transition: none; animation: none; }
         .roulette-strip { transition: none !important; }
         .crate-icon { animation: none; }
         .save-toast { transition: none; }
@@ -3633,6 +3676,35 @@
           </div>
         </div>
         <button class="crate-done-btn" id="crateDoneBtn" type="button" hidden>Awesome!</button>
+      </div>
+    </div>
+
+    <div class="crate-qty-overlay" id="crateQtyOverlay" hidden>
+      <div class="crate-qty-panel" role="dialog" aria-modal="true" aria-labelledby="crateQtyTitle">
+        <div class="crate-qty-icon" id="crateQtyIcon" aria-hidden="true">📦</div>
+        <h2 class="skins-title" id="crateQtyTitle">How Many?</h2>
+        <p class="crate-qty-crate-name" id="crateQtyCrateName">Basic Sahur Crate — 100 Tungs each</p>
+        <div class="crate-qty-row">
+          <input class="crate-qty-input" id="crateQtyInput" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="Number of crates to open" />
+          <button class="crate-qty-max-btn" id="crateQtyMaxBtn" type="button">Max</button>
+        </div>
+        <p class="crate-qty-cost" id="crateQtyCost">Total: 100 Tungs</p>
+        <p class="crate-qty-balance" id="crateQtyBalance">You have 0 Tungs</p>
+        <p class="crate-qty-warn" id="crateQtyWarn" hidden></p>
+        <div class="crate-qty-actions">
+          <button class="crate-qty-open-btn" id="crateQtyOpenBtn" type="button">Open</button>
+          <button class="crate-qty-cancel-btn" id="crateQtyCancelBtn" type="button">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="crate-multi-overlay" id="crateMultiOverlay" hidden>
+      <div class="crate-panel crate-multi-panel" role="dialog" aria-modal="true" aria-labelledby="crateMultiTitle">
+        <h2 class="skins-title" id="crateMultiTitle">Unbox Summary</h2>
+        <p class="crate-multi-sub" id="crateMultiSub"></p>
+        <div class="crate-multi-list" id="crateMultiList"></div>
+        <p class="crate-multi-refund" id="crateMultiRefund" hidden></p>
+        <button class="crate-done-btn" id="crateMultiDoneBtn" type="button">Awesome!</button>
       </div>
     </div>
 
@@ -5148,18 +5220,234 @@
         }
         // Basic Sahur Crate: 54.5% Snowboarder (COMMON), 40% UNCOMMON tier (Golden / Frost / Swamp at 13.33% each), 4% RARE tier (Evil 2 + Zombie 2), 1% Glitch (EPIC), 0.5% Galaxy (MYTHICAL).
         if (openCrateBtn) openCrateBtn.addEventListener('click', function () {
-          openCrateFlow({ cost: 100, refund: 50, roll: rollCrateSkin, label: 'Basic Sahur Crate', icon: '📦' });
+          promptCrateQuantity({ cost: 100, refund: 50, roll: rollCrateSkin, label: 'Basic Sahur Crate', icon: '📦' });
         });
         // Event Crate: 73.5% Snowboarder, 20% UNCOMMON tier (Golden / Frost / Swamp at 6.67% each), 2% Evil, 1.5% Alien (RARE), 1% Zombie, 1% Glitch (EPIC), 1% Galaxy (MYTHICAL).
         if (openEventCrateBtn) openEventCrateBtn.addEventListener('click', function () {
-          openCrateFlow({ cost: EVENT_CRATE_COST, refund: 500, roll: rollEventCrateSkin, label: 'Event Crate', icon: '🛸' });
+          promptCrateQuantity({ cost: EVENT_CRATE_COST, refund: 500, roll: rollEventCrateSkin, label: 'Event Crate', icon: '🛸' });
         });
         // Basic+ Sahur Crate: Common 61 (Silver 30.5 + Snowboarder 30.5), Uncommon 35 (Golden / Frost / Swamp at 11.67 each),
         // Rare 4 (Evil 2 + Zombie 2), Epic 1 (Glitch), Mythic 0.8 (Galaxy) — normalized across the 101.8 total.
         if (openBasicPlusCrateBtn) openBasicPlusCrateBtn.addEventListener('click', function () {
-          openCrateFlow({ cost: BASIC_PLUS_CRATE_COST, refund: 100, roll: rollBasicPlusCrateSkin, label: 'Basic+ Sahur Crate', icon: '🌟' });
+          promptCrateQuantity({ cost: BASIC_PLUS_CRATE_COST, refund: 100, roll: rollBasicPlusCrateSkin, label: 'Basic+ Sahur Crate', icon: '🌟' });
         });
         crateDoneBtn.addEventListener('click', function () { hideOverlay(crateOverlay); });
+
+        // ---------- Multi-open: "How Many?" prompt + bulk roll ----------
+        // Clicking Open on any crate first asks how many to open.
+        // Quantity 1 runs the normal single-crate roulette
+        // (openCrateFlow); quantity > 1 deducts the full cost, rolls
+        // the crate's own RNG that many times independently, and shows
+        // an Unbox Summary grouped best-rarity-first. Duplicate rolls
+        // refund the crate's per-crate refund, exactly like a single
+        // open, and everything saves to localStorage + cloud at once.
+        var crateQtyOverlay = document.getElementById('crateQtyOverlay');
+        var crateQtyIcon = document.getElementById('crateQtyIcon');
+        var crateQtyCrateName = document.getElementById('crateQtyCrateName');
+        var crateQtyInput = document.getElementById('crateQtyInput');
+        var crateQtyMaxBtn = document.getElementById('crateQtyMaxBtn');
+        var crateQtyCost = document.getElementById('crateQtyCost');
+        var crateQtyBalance = document.getElementById('crateQtyBalance');
+        var crateQtyWarn = document.getElementById('crateQtyWarn');
+        var crateQtyOpenBtn = document.getElementById('crateQtyOpenBtn');
+        var crateQtyCancelBtn = document.getElementById('crateQtyCancelBtn');
+        var crateMultiOverlay = document.getElementById('crateMultiOverlay');
+        var crateMultiPanel = crateMultiOverlay ? crateMultiOverlay.querySelector('.crate-multi-panel') : null;
+        var crateMultiTitle = document.getElementById('crateMultiTitle');
+        var crateMultiSub = document.getElementById('crateMultiSub');
+        var crateMultiList = document.getElementById('crateMultiList');
+        var crateMultiRefund = document.getElementById('crateMultiRefund');
+        var crateMultiDoneBtn = document.getElementById('crateMultiDoneBtn');
+        var pendingCrateOpts = null;
+
+        // Rarity label / chip class / sort rank for every rollable skin
+        // (mirrors the leaderboard profile rarity table).
+        var MULTI_RARITY = {
+          snowboarder: { label: 'COMMON', chip: 'rarity-common', rank: 1 },
+          silver: { label: 'COMMON', chip: 'rarity-silver', rank: 1 },
+          golden: { label: 'UNCOMMON', chip: 'rarity-uncommon', rank: 2 },
+          frost: { label: 'UNCOMMON', chip: 'rarity-frost', rank: 2 },
+          swamp: { label: 'UNCOMMON', chip: 'rarity-swamp', rank: 2 },
+          evil: { label: 'RARE', chip: 'rarity-rare', rank: 3 },
+          zombie: { label: 'RARE', chip: 'rarity-rare-cyan', rank: 3 },
+          alien: { label: 'RARE', chip: 'rarity-alien', rank: 3 },
+          glitch: { label: 'EPIC', chip: 'rarity-epic', rank: 4 },
+          galaxy: { label: 'MYTHICAL', chip: 'rarity-mythical', rank: 5 }
+        };
+        function multiRarityOf(id) { return MULTI_RARITY[id] || { label: 'COMMON', chip: 'rarity-common', rank: 1 }; }
+
+        function crateQtyValue() {
+          var n = parseInt(crateQtyInput.value, 10);
+          return isNaN(n) ? NaN : n;
+        }
+        function refreshCrateQty() {
+          if (!pendingCrateOpts) return;
+          var cost = pendingCrateOpts.cost;
+          var max = Math.floor(tungs / cost);
+          var qty = crateQtyValue();
+          crateQtyBalance.textContent = 'You have ' + tungs.toLocaleString('en-US') + ' Tungs — up to ' + Math.max(max, 0).toLocaleString('en-US') + ' × ' + pendingCrateOpts.label;
+          if (isNaN(qty)) {
+            crateQtyCost.textContent = 'Total: — Tungs';
+            crateQtyWarn.textContent = 'Enter how many crates to open (at least 1).';
+            crateQtyWarn.hidden = false;
+            crateQtyOpenBtn.disabled = true;
+            return;
+          }
+          crateQtyCost.textContent = 'Total: ' + (qty * cost).toLocaleString('en-US') + ' Tungs';
+          if (qty < 1) {
+            crateQtyWarn.textContent = 'You have to open at least 1 crate.';
+            crateQtyWarn.hidden = false;
+            crateQtyOpenBtn.disabled = true;
+          } else if (qty > max) {
+            crateQtyWarn.textContent = 'Not enough Tungs! ' + qty.toLocaleString('en-US') + ' × ' + pendingCrateOpts.label + ' costs ' + (qty * cost).toLocaleString('en-US') + ' — you can afford ' + Math.max(max, 0) + '.';
+            crateQtyWarn.hidden = false;
+            crateQtyOpenBtn.disabled = true;
+          } else {
+            crateQtyWarn.hidden = true;
+            crateQtyOpenBtn.disabled = false;
+          }
+        }
+        function promptCrateQuantity(opts) {
+          if (crateOpening) return;
+          if (tungs < opts.cost) { shopShowError('Not enough Tungs! ' + opts.label + ' costs ' + opts.cost.toLocaleString('en-US') + ' — you have ' + tungs + '.'); return; }
+          pendingCrateOpts = opts;
+          crateQtyIcon.textContent = opts.icon;
+          crateQtyCrateName.textContent = opts.label + ' — ' + opts.cost.toLocaleString('en-US') + ' Tungs each';
+          crateQtyInput.value = '1';
+          refreshCrateQty();
+          showOverlay(crateQtyOverlay);
+          crateQtyInput.focus();
+          crateQtyInput.select();
+        }
+        function closeCrateQty() {
+          pendingCrateOpts = null;
+          hideOverlay(crateQtyOverlay);
+        }
+        if (crateQtyInput) crateQtyInput.addEventListener('input', refreshCrateQty);
+        if (crateQtyInput) crateQtyInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' && !crateQtyOpenBtn.disabled) { e.preventDefault(); crateQtyOpenBtn.click(); }
+        });
+        if (crateQtyMaxBtn) crateQtyMaxBtn.addEventListener('click', function () {
+          if (!pendingCrateOpts) return;
+          var max = Math.floor(tungs / pendingCrateOpts.cost);
+          crateQtyInput.value = String(Math.max(1, max));
+          refreshCrateQty();
+          crateQtyInput.focus();
+        });
+        if (crateQtyCancelBtn) crateQtyCancelBtn.addEventListener('click', closeCrateQty);
+        if (crateQtyOverlay) crateQtyOverlay.addEventListener('click', function (e) { if (e.target === crateQtyOverlay) closeCrateQty(); });
+        if (crateQtyOpenBtn) crateQtyOpenBtn.addEventListener('click', function () {
+          if (!pendingCrateOpts) return;
+          var opts = pendingCrateOpts;
+          var qty = crateQtyValue();
+          var max = Math.floor(tungs / opts.cost);
+          if (isNaN(qty) || qty < 1 || qty > max) { refreshCrateQty(); return; }
+          pendingCrateOpts = null;
+          hideOverlay(crateQtyOverlay);
+          if (qty === 1) openCrateFlow(opts);
+          else openCrateMulti(opts, qty);
+        });
+
+        function openCrateMulti(opts, qty) {
+          if (crateOpening) return;
+          var totalCost = qty * opts.cost;
+          if (tungs < totalCost) { shopShowError('Not enough Tungs! ' + qty + ' × ' + opts.label + ' costs ' + totalCost.toLocaleString('en-US') + ' — you have ' + tungs + '.'); return; }
+          crateOpening = true;
+          tungs -= totalCost;
+          shopShowError('');
+
+          // Roll the crate's exact RNG qty times, independently.
+          // Unlocks apply as we go, so a skin pulled twice in one
+          // batch counts as NEW once and a duplicate after that.
+          var groups = {};
+          var order = [];
+          var refundTotal = 0;
+          var newCount = 0;
+          var bestId = null;
+          for (var i = 0; i < qty; i++) {
+            var id = opts.roll();
+            var isNew = !hasSkin(id);
+            if (isNew) { unlockedSkins.push(id); newCount++; }
+            else refundTotal += opts.refund;
+            if (!groups[id]) { groups[id] = { id: id, count: 0, isNew: false }; order.push(id); }
+            groups[id].count++;
+            if (isNew) groups[id].isNew = true;
+            if (!bestId || multiRarityOf(id).rank > multiRarityOf(bestId).rank) bestId = id;
+          }
+          tungs += refundTotal;
+
+          // Save immediately: localStorage now, cloud save forced.
+          renderTungs(); renderSkins(); saveNow();
+          if (typeof pushCloudSave === 'function') { try { pushCloudSave(true); } catch (err) { /* sweeper retries */ } }
+          crateOpening = false;
+
+          // Summary rows: highest rarity first, NEW pulls ahead of
+          // duplicates within a tier, then by count.
+          var rows = order.map(function (id) { return groups[id]; });
+          rows.sort(function (a, b) {
+            var dr = multiRarityOf(b.id).rank - multiRarityOf(a.id).rank;
+            if (dr !== 0) return dr;
+            if (a.isNew !== b.isNew) return a.isNew ? -1 : 1;
+            return b.count - a.count;
+          });
+          crateMultiTitle.textContent = opts.icon + ' Unbox Summary';
+          crateMultiSub.textContent = 'Opened ' + qty.toLocaleString('en-US') + ' × ' + opts.label + (newCount > 0 ? ' — ' + newCount + ' NEW skin' + (newCount === 1 ? '' : 's') + ' unlocked!' : ' — no new skins this time.');
+          crateMultiList.innerHTML = '';
+          rows.forEach(function (row) {
+            var rar = multiRarityOf(row.id);
+            var el = document.createElement('div');
+            el.className = 'crate-multi-row' + (row.isNew ? ' is-new' : '');
+            var thumb = document.createElement('span');
+            thumb.className = 'crate-multi-thumb';
+            var img = document.createElement('img');
+            img.src = SKINS[row.id].src;
+            img.alt = '';
+            img.draggable = false;
+            if (SKINS[row.id].imgClass) img.className = SKINS[row.id].imgClass;
+            thumb.appendChild(img);
+            var name = document.createElement('span');
+            name.className = 'crate-multi-name';
+            name.textContent = SKINS[row.id].name;
+            var chip = document.createElement('span');
+            chip.className = 'rarity-chip ' + rar.chip;
+            chip.textContent = rar.label;
+            el.appendChild(thumb);
+            el.appendChild(name);
+            el.appendChild(chip);
+            if (row.isNew) {
+              var tag = document.createElement('span');
+              tag.className = 'crate-multi-new-tag';
+              tag.textContent = 'NEW!';
+              el.appendChild(tag);
+            }
+            if (row.count > 1) {
+              var count = document.createElement('span');
+              count.className = 'crate-multi-count';
+              count.textContent = '×' + row.count;
+              el.appendChild(count);
+            }
+            crateMultiList.appendChild(el);
+          });
+          if (refundTotal > 0) {
+            crateMultiRefund.textContent = 'Duplicates refunded: +' + refundTotal.toLocaleString('en-US') + ' Tungs';
+            crateMultiRefund.hidden = false;
+          } else {
+            crateMultiRefund.hidden = true;
+          }
+          if (crateMultiPanel) crateMultiPanel.classList.remove('mythical-win', 'alien-win', 'silver-win', 'glitch-win', 'frost-win', 'swamp-win');
+          showOverlay(crateMultiOverlay);
+          crateMultiDoneBtn.focus();
+
+          // Highest-rarity pull drives the celebration flash + panel
+          // glow, same flashes a single open of that skin would fire.
+          if (bestId === 'galaxy') { triggerMythicalCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('mythical-win'); }
+          else if (bestId === 'glitch') { triggerGlitchCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('glitch-win'); }
+          else if (bestId === 'alien') { triggerAlienCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('alien-win'); }
+          else if (bestId === 'frost') { triggerFrostCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('frost-win'); }
+          else if (bestId === 'swamp') { triggerSwampCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('swamp-win'); }
+          else if (bestId === 'silver') { triggerSilverCelebration(); if (crateMultiPanel) crateMultiPanel.classList.add('silver-win'); }
+        }
+        if (crateMultiDoneBtn) crateMultiDoneBtn.addEventListener('click', function () { hideOverlay(crateMultiOverlay); });
 
         // ---------- Coin Flip game ----------
         var coinflipOverlay = document.getElementById('coinflipOverlay');
