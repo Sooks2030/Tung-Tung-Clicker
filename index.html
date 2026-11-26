@@ -4144,6 +4144,15 @@
               </div>
               <button class="shop-buy-btn" id="buyOmegaBtn" type="button">Buy — 8M Tungs</button>
             </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">🌠</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Celestial Tung Smash</div>
+                <div class="shop-card-desc">A smash straight from the heavens — celestial power in every swing! Every manual click earns +375K extra Tungs for each one you own.</div>
+                <div class="shop-card-meta" id="celestialMeta">Owned: 0 &nbsp;•&nbsp; +375K Click Power each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyCelestialBtn" type="button">Buy — 40M Tungs</button>
+            </div>
           </section>
           <section class="shop-section" aria-labelledby="ttpsUpgradesTitle">
             <h3 class="shop-section-title" id="ttpsUpgradesTitle">⚡ TTPS — Tungs Per Second</h3>
@@ -4237,6 +4246,15 @@
                 <div class="shop-card-meta" id="multiverseMeta">Owned: 0 &nbsp;•&nbsp; +240K TTPS each</div>
               </div>
               <button class="shop-buy-btn" id="buyMultiverseBtn" type="button">Buy — 12M Tungs</button>
+            </div>
+            <div class="shop-card">
+              <div class="shop-card-icon" aria-hidden="true">♾️</div>
+              <div class="shop-card-info">
+                <div class="shop-card-name">Eternal Sahur Engine</div>
+                <div class="shop-card-desc">An engine that never stops — it started at the first Sahur and will run forever! Automatically earns +1.2M Tungs every second for each one you own.</div>
+                <div class="shop-card-meta" id="eternalMeta">Owned: 0 &nbsp;•&nbsp; +1.2M TTPS each</div>
+              </div>
+              <button class="shop-buy-btn" id="buyEternalBtn" type="button">Buy — 60M Tungs</button>
             </div>
           </section>
           <section class="shop-section" aria-labelledby="endgameUpgradesTitle">
@@ -5450,6 +5468,13 @@
         var omegaTungStrike = 0;
         var starlightHarvesters = 0;
         var multiverseEngine = 0;
+        // Top regular tiers capping the two normal shop sections
+        // (Celestial Tung Smash above Omega in Click Power, Eternal
+        // Sahur Engine above Multiverse in TTPS) — regular upgrades,
+        // NOT Endgame: same 1.35x scaling, saved and reset on
+        // Rebirth exactly like every other regular upgrade.
+        var celestialSmash = 0;
+        var eternalEngine = 0;
         // Endgame wave (above the Void / Omega / Starlight / Multiverse
         // tiers, 1.35x cost scaling, saved everywhere the other
         // upgrades are saved).
@@ -5464,6 +5489,14 @@
         // discount (see the Rebirth block), and is saved everywhere
         // the rest of the state is saved.
         var rebirths = 0;
+        // When the most recent Rebirth happened (ms epoch, 0 =
+        // never). The Rebirth skin wipe is timestamped so nothing
+        // written BEFORE that moment — an old Admin Board skin
+        // grant still sitting in Firebase, a stale cloud snapshot
+        // from before the Rebirth — can hand back a skin the
+        // Rebirth removed. Saved everywhere the rest of the state
+        // is saved.
+        var lastRebirthAt = 0;
         var unlockedSkins = ['classic'];
         var equippedSkin = 'classic';
         // Lifetime manual taps on Tung Tung — saved everywhere the
@@ -5554,10 +5587,14 @@
         var buyVoidBtn = document.getElementById('buyVoidBtn');
         var omegaMetaEl = document.getElementById('omegaMeta');
         var buyOmegaBtn = document.getElementById('buyOmegaBtn');
+        var celestialMetaEl = document.getElementById('celestialMeta');
+        var buyCelestialBtn = document.getElementById('buyCelestialBtn');
         var starlightMetaEl = document.getElementById('starlightMeta');
         var buyStarlightBtn = document.getElementById('buyStarlightBtn');
         var multiverseMetaEl = document.getElementById('multiverseMeta');
         var buyMultiverseBtn = document.getElementById('buyMultiverseBtn');
+        var eternalMetaEl = document.getElementById('eternalMeta');
+        var buyEternalBtn = document.getElementById('buyEternalBtn');
         var slamMetaEl = document.getElementById('slamMeta');
         var buySlamBtn = document.getElementById('buySlamBtn');
         var reactorMetaEl = document.getElementById('reactorMeta');
@@ -5601,9 +5638,13 @@
         // Top Click Power tiers above Supernova Tap - same 1.35x scaling.
         function voidCost() { return discountedCost(Math.floor(1500000 * Math.pow(1.35, voidBatSmash))); }
         function omegaCost() { return discountedCost(Math.floor(8000000 * Math.pow(1.35, omegaTungStrike))); }
+        // Top regular Click Power tier above Omega Tung Strike — same 1.35x scaling.
+        function celestialCost() { return discountedCost(Math.floor(40000000 * Math.pow(1.35, celestialSmash))); }
         // Top TTPS tiers above Galactic Tung Tung Factory - same scaling.
         function starlightCost() { return discountedCost(Math.floor(2500000 * Math.pow(1.35, starlightHarvesters))); }
         function multiverseCost() { return discountedCost(Math.floor(12000000 * Math.pow(1.35, multiverseEngine))); }
+        // Top regular TTPS tier above Multiverse Tung Engine — same 1.35x scaling.
+        function eternalCost() { return discountedCost(Math.floor(60000000 * Math.pow(1.35, eternalEngine))); }
         // Endgame wave — same 1.35x scaling, priced and powered
         // above the Void / Omega / Starlight / Multiverse tiers.
         function slamCost() { return discountedCost(Math.floor(1000000000 * Math.pow(1.35, supernovaSlam))); }
@@ -5706,8 +5747,9 @@
         // Clocks +20, Factories +200, Drum Crew +20, Midnight Echoes
         // +90, Night Sky Patrol +400, Nebula Pulse +1,900, Galactic
         // Factory +9,600, Starlight Harvesters +50,000, Multiverse
-        // Tung Engine +240,000, Galactic Sahur Reactor +8,000,000,
-        // Black Hole Singularity +10,000,000, Multiverse Sahur
+        // Tung Engine +240,000, Eternal Sahur Engine +1,200,000,
+        // Galactic Sahur Reactor +8,000,000, Black Hole Singularity
+        // +10,000,000, Multiverse Sahur
         // Overlord +200,000,000 — each per second, all times the TTPS
         // global multiplier (Overlord x Rebirth TTPS perk). Every
         // per-second bonus was DOUBLED (base costs and 1.35x scaling
@@ -5721,6 +5763,7 @@
             + sahurDrumCrew * 20 + midnightEchoes * 90 + nightSkyPatrol * 400
             + nebulaPulse * 1900 + galacticFactory * 9600
             + starlightHarvesters * 50000 + multiverseEngine * 240000
+            + eternalEngine * 1200000
             + galacticReactor * 8000000 + blackHoleSingularity * 10000000
             + sahurOverlord * 200000000;
           return Math.floor(base * tpsGlobalMultiplier());
@@ -5728,7 +5771,8 @@
         // Manual click power: 1 base + Drumstick +1, Reinforced Grip
         // +5, Titanium Core +25, Meteorite Swing +120, Cosmic
         // Shockwave +600, Supernova Tap +3,000, Void Bat Smash
-        // +15,000, Omega Tung Strike +75,000, Supernova Slam
+        // +15,000, Omega Tung Strike +75,000, Celestial Tung Smash
+        // +375,000, Supernova Slam
         // +2,000,000, Black Hole Singularity +5,000,000, Quantum Tung
         // Collider +20,000,000 — each per tap, all times the Click
         // global multiplier (Overlord x Rebirth click perk). The
@@ -5739,6 +5783,7 @@
           var base = 1 + clickUpgrades + reinforcedGrip * 5 + titaniumCore * 25
             + meteoriteSwing * 120 + cosmicShockwave * 600 + supernovaTap * 3000
             + voidBatSmash * 15000 + omegaTungStrike * 75000
+            + celestialSmash * 375000
             + supernovaSlam * 2000000 + blackHoleSingularity * 5000000
             + quantumCollider * 20000000;
           // Multiplied power first, THEN the equipped EXOTIC skin's
@@ -6176,10 +6221,14 @@
           if (buyVoidBtn) { buyVoidBtn.textContent = 'Buy — ' + fmtNum(voidCost()) + ' Tungs'; buyVoidBtn.disabled = tungs < voidCost(); }
           if (omegaMetaEl) omegaMetaEl.textContent = 'Owned: ' + omegaTungStrike + '  •  +75K Click Power each  •  Current bonus: +' + fmtNum(omegaTungStrike * 75000) + ' per tap';
           if (buyOmegaBtn) { buyOmegaBtn.textContent = 'Buy — ' + fmtNum(omegaCost()) + ' Tungs'; buyOmegaBtn.disabled = tungs < omegaCost(); }
+          if (celestialMetaEl) celestialMetaEl.textContent = 'Owned: ' + celestialSmash + '  •  +375K Click Power each  •  Current bonus: +' + fmtNum(celestialSmash * 375000) + ' per tap';
+          if (buyCelestialBtn) { buyCelestialBtn.textContent = 'Buy — ' + fmtNum(celestialCost()) + ' Tungs'; buyCelestialBtn.disabled = tungs < celestialCost(); }
           if (starlightMetaEl) starlightMetaEl.textContent = 'Owned: ' + starlightHarvesters + '  •  +50K TTPS each  •  Current bonus: +' + fmtNum(starlightHarvesters * 50000) + ' TTPS';
           if (buyStarlightBtn) { buyStarlightBtn.textContent = 'Buy — ' + fmtNum(starlightCost()) + ' Tungs'; buyStarlightBtn.disabled = tungs < starlightCost(); }
           if (multiverseMetaEl) multiverseMetaEl.textContent = 'Owned: ' + multiverseEngine + '  •  +240K TTPS each  •  Current bonus: +' + fmtNum(multiverseEngine * 240000) + ' TTPS';
           if (buyMultiverseBtn) { buyMultiverseBtn.textContent = 'Buy — ' + fmtNum(multiverseCost()) + ' Tungs'; buyMultiverseBtn.disabled = tungs < multiverseCost(); }
+          if (eternalMetaEl) eternalMetaEl.textContent = 'Owned: ' + eternalEngine + '  •  +1.2M TTPS each  •  Current bonus: +' + fmtNum(eternalEngine * 1200000) + ' TTPS';
+          if (buyEternalBtn) { buyEternalBtn.textContent = 'Buy — ' + fmtNum(eternalCost()) + ' Tungs'; buyEternalBtn.disabled = tungs < eternalCost(); }
           if (slamMetaEl) slamMetaEl.textContent = 'Owned: ' + supernovaSlam + '  •  +2M Click Power each  •  Current bonus: +' + fmtNum(supernovaSlam * 2000000) + ' per tap';
           if (buySlamBtn) { buySlamBtn.textContent = 'Buy — ' + fmtBig(slamCost()) + ' Tungs'; buySlamBtn.disabled = tungs < slamCost(); }
           if (reactorMetaEl) reactorMetaEl.textContent = 'Owned: ' + galacticReactor + '  •  +8M TTPS each  •  Current bonus: +' + fmtNum(galacticReactor * 8000000) + ' TTPS';
@@ -6371,6 +6420,7 @@
         // old reset command would replay on the next sync and drop
         // a good balance straight back to 0.
         var restoredLastResetSeen = 0;
+        var restoredLastRebirthAt = 0;
         var previousLastActiveTime = 0;
         var lastActiveMs = Date.now();
         function stampLastActive() {
@@ -6399,12 +6449,15 @@
             omegaTungStrike: omegaTungStrike,
             starlightHarvesters: starlightHarvesters,
             multiverseEngine: multiverseEngine,
+            celestialSmash: celestialSmash,
+            eternalEngine: eternalEngine,
             supernovaSlam: supernovaSlam,
             galacticReactor: galacticReactor,
             blackHoleSingularity: blackHoleSingularity,
             quantumCollider: quantumCollider,
             sahurOverlord: sahurOverlord,
             rebirths: rebirths,
+            lastRebirthAt: lastRebirthAt,
             unlockedSkins: unlockedSkins.slice(),
             equippedSkin: equippedSkin,
             totalClicks: totalClicks,
@@ -6510,6 +6563,10 @@
           if (isFinite(sSh) && sSh >= 0) starlightHarvesters = sSh;
           var sMv = Math.floor(Number(parsed.multiverseEngine));
           if (isFinite(sMv) && sMv >= 0) multiverseEngine = sMv;
+          var sCe = Math.floor(Number(parsed.celestialSmash));
+          if (isFinite(sCe) && sCe >= 0) celestialSmash = sCe;
+          var sEt = Math.floor(Number(parsed.eternalEngine));
+          if (isFinite(sEt) && sEt >= 0) eternalEngine = sEt;
           var sSl = Math.floor(Number(parsed.supernovaSlam));
           if (isFinite(sSl) && sSl >= 0) supernovaSlam = sSl;
           var sGr = Math.floor(Number(parsed.galacticReactor));
@@ -6522,6 +6579,11 @@
           if (isFinite(sSo) && sSo >= 0) sahurOverlord = sSo;
           var sRb = Math.floor(Number(parsed.rebirths));
           if (isFinite(sRb) && sRb >= 0) rebirths = sRb;
+          var sLr = Math.floor(Number(parsed.lastRebirthAt));
+          if (isFinite(sLr) && sLr > 0) {
+            if (sLr > lastRebirthAt) lastRebirthAt = sLr;
+            if (sLr > restoredLastRebirthAt) restoredLastRebirthAt = sLr;
+          }
           if (Array.isArray(parsed.unlockedSkins)) {
             unlockedSkins = ['classic'];
             parsed.unlockedSkins.forEach(function (s) {
@@ -7088,8 +7150,10 @@
         bindUpgradeBuy(buyGalacticFactoryBtn, galacticFactoryCost, function () { galacticFactory += 1; }, 'Galactic Tung Tung Factory');
         bindUpgradeBuy(buyVoidBtn, voidCost, function () { voidBatSmash += 1; }, 'Void Bat Smash');
         bindUpgradeBuy(buyOmegaBtn, omegaCost, function () { omegaTungStrike += 1; }, 'Omega Tung Strike');
+        bindUpgradeBuy(buyCelestialBtn, celestialCost, function () { celestialSmash += 1; }, 'Celestial Tung Smash');
         bindUpgradeBuy(buyStarlightBtn, starlightCost, function () { starlightHarvesters += 1; }, 'Starlight Harvesters');
         bindUpgradeBuy(buyMultiverseBtn, multiverseCost, function () { multiverseEngine += 1; }, 'Multiverse Tung Engine');
+        bindUpgradeBuy(buyEternalBtn, eternalCost, function () { eternalEngine += 1; }, 'Eternal Sahur Engine');
         bindUpgradeBuy(buySlamBtn, slamCost, function () { supernovaSlam += 1; }, 'Supernova Slam');
         bindUpgradeBuy(buyReactorBtn, reactorCost, function () { galacticReactor += 1; }, 'Galactic Sahur Reactor');
         bindUpgradeBuy(buyBlackHoleBtn, blackHoleCost, function () { blackHoleSingularity += 1; }, 'Black Hole Singularity');
@@ -7110,11 +7174,12 @@
         // exclusive Rebirth Tung Tung skin + title "Ascended";
         // 10 — title "Multiverse Overlord" + an extra x1.5
         // multiplier.
-        // A Rebirth NEVER touches unlocked skins, Gambling Stats,
-        // totalClicks, the lifetime totalSpent / saveVersion
-        // anti-replay watermarks, badges, cheaterLocked, or the
-        // player's identity — only Tungs, upgrade levels and the
-        // (derived) multipliers reset.
+        // A Rebirth also wipes unlocked skins (see doRebirth for
+        // the small keep set — every crate skin goes, EXOTIC
+        // included). It NEVER touches Gambling Stats, totalClicks,
+        // the lifetime totalSpent / saveVersion anti-replay
+        // watermarks, badges, cheaterLocked, or the player's
+        // identity.
         var rebirthOverlay = document.getElementById('rebirthOverlay');
         var rebirthDoBtn = document.getElementById('rebirthDoBtn');
         var rebirthBackBtn = document.getElementById('rebirthBack');
@@ -7218,12 +7283,17 @@
           // replayed to undo the reset.
           totalSpent += cost;
           rebirths += 1;
+          // Stamp the wipe: anything dated before this moment (an
+          // old board skin grant, a pre-Rebirth cloud snapshot) is
+          // pre-wipe history and can never re-grant a removed skin.
+          lastRebirthAt = Date.now();
           // Reset the run: every upgrade level back to 0…
           autoLevel = 0; clickUpgrades = 0; alarmClocks = 0; factories = 0;
           reinforcedGrip = 0; titaniumCore = 0; meteoriteSwing = 0; cosmicShockwave = 0;
           supernovaTap = 0; sahurDrumCrew = 0; midnightEchoes = 0; nightSkyPatrol = 0;
           nebulaPulse = 0; galacticFactory = 0; voidBatSmash = 0; omegaTungStrike = 0;
-          starlightHarvesters = 0; multiverseEngine = 0; supernovaSlam = 0; galacticReactor = 0;
+          starlightHarvesters = 0; multiverseEngine = 0; celestialSmash = 0; eternalEngine = 0;
+          supernovaSlam = 0; galacticReactor = 0;
           blackHoleSingularity = 0; quantumCollider = 0; sahurOverlord = 0;
           // Rebirth also wipes unlocked skins. Only these survive:
           // Classic (always — the default skin); Cheater, only while
@@ -9490,6 +9560,13 @@
           // balance straight back to 0.
           var seedReset = Math.floor(Number(restoredLastResetSeen)) || 0;
           if (seedReset > lastResetSeen) lastResetSeen = seedReset;
+          // Same floor for the Rebirth wipe stamp: a cloud save
+          // adopted later in the session can carry a NEWER stamp
+          // than the live variable picked up at startup, and the
+          // grantSkins guard below must judge grants against the
+          // freshest wipe this device knows about.
+          var seedRebirth = Math.floor(Number(restoredLastRebirthAt)) || 0;
+          if (seedRebirth > lastRebirthAt) lastRebirthAt = seedRebirth;
           // Reset first, so a grant in the same batch lands on top of 0.
           if (typeof actions.resetTungsAt === 'number' && actions.resetTungsAt > lastResetSeen) {
             lastResetSeen = actions.resetTungsAt;
@@ -9548,32 +9625,57 @@
             }
           }
           var gs = actions.grantSkins;
-          if (gs && typeof gs === 'object' && gs.commandId && processedCmds.indexOf(gs.commandId) === -1) {
-            processedCmds.push(gs.commandId);
-            if (Array.isArray(gs.skins)) {
-              gs.skins.forEach(function (s) {
-                // Admin Tung Tung never joins the normal inventory:
-                // a board grant flips the dedicated grant flag and
-                // enforceAdminSkinAccess() handles the unlock.
-                if (s === 'admin') {
-                  if (!adminSkinGranted) { adminSkinGranted = true; storageSet(ADMIN_SKIN_KEY, '1'); }
-                  changed = true;
-                  return;
-                }
-                // Mod Tung Tung is the same: a board grant flips its
-                // dedicated grant flag and enforceModSkinAccess()
-                // handles the unlock.
-                if (s === 'mod') {
-                  if (!modSkinGranted) { modSkinGranted = true; storageSet(MOD_SKIN_KEY, '1'); }
-                  changed = true;
-                  return;
-                }
-                if (VALID_SKINS.indexOf(s) !== -1 && unlockedSkins.indexOf(s) === -1) {
-                  unlockedSkins.push(s);
-                  changed = true;
-                }
-              });
+          if (gs && typeof gs === 'object' && gs.commandId) {
+            if (processedCmds.indexOf(gs.commandId) === -1) {
+              processedCmds.push(gs.commandId);
+              // A grant written BEFORE the player's last Rebirth
+              // was already wiped by that Rebirth — it must never
+              // hand the skins back. grantSkins nodes used to sit
+              // in Firebase forever, deduped only by this device's
+              // processed list; on any fresh storage context (the
+              // Safari / Home Screen split, a wiped browser store)
+              // that list is empty, the old grant re-fired on the
+              // next sync — doRebirth itself ends with a sync —
+              // and a wiped skin walked straight back in. That is
+              // the "EXOTIC still isn't deleting after Rebirth"
+              // bug: the Wizard is board-grantable, so a standing
+              // grant resurrected it seconds after every wipe while
+              // crate-rolled skins stayed deleted. Grants written
+              // AFTER the last Rebirth apply normally.
+              var gsAt = Math.floor(Number(gs.at)) || 0;
+              var gsWipedByRebirth = lastRebirthAt > 0 && gsAt < lastRebirthAt;
+              if (!gsWipedByRebirth && Array.isArray(gs.skins)) {
+                gs.skins.forEach(function (s) {
+                  // Admin Tung Tung never joins the normal inventory:
+                  // a board grant flips the dedicated grant flag and
+                  // enforceAdminSkinAccess() handles the unlock.
+                  if (s === 'admin') {
+                    if (!adminSkinGranted) { adminSkinGranted = true; storageSet(ADMIN_SKIN_KEY, '1'); }
+                    changed = true;
+                    return;
+                  }
+                  // Mod Tung Tung is the same: a board grant flips its
+                  // dedicated grant flag and enforceModSkinAccess()
+                  // handles the unlock.
+                  if (s === 'mod') {
+                    if (!modSkinGranted) { modSkinGranted = true; storageSet(MOD_SKIN_KEY, '1'); }
+                    changed = true;
+                    return;
+                  }
+                  if (VALID_SKINS.indexOf(s) !== -1 && unlockedSkins.indexOf(s) === -1) {
+                    unlockedSkins.push(s);
+                    changed = true;
+                  }
+                });
+              }
             }
+            // Consume the command either way — freshly applied,
+            // wiped by a Rebirth, or applied long ago in another
+            // storage context — so it can never re-fire, exactly
+            // like the grantQueue entries above. (A grant the
+            // board writes later carries a new commandId and a
+            // fresh timestamp, so legitimate re-grants still land.)
+            consumeGrantNode('/adminActions/' + encodeURIComponent(playerId) + '/grantSkins.json');
           }
           // Direct Admin Tung Tung grant / revoke from the Admin
           // Board: /adminActions/{me} carries an adminSkin command
@@ -10365,6 +10467,7 @@
               && !(snapData.nebulaPulse > 0) && !(snapData.galacticFactory > 0)
               && !(snapData.voidBatSmash > 0) && !(snapData.omegaTungStrike > 0)
               && !(snapData.starlightHarvesters > 0) && !(snapData.multiverseEngine > 0)
+              && !(snapData.celestialSmash > 0) && !(snapData.eternalEngine > 0)
               && !(snapData.supernovaSlam > 0) && !(snapData.galacticReactor > 0)
               && !(snapData.blackHoleSingularity > 0) && !(snapData.quantumCollider > 0)
               && !(snapData.sahurOverlord > 0)
@@ -10483,7 +10586,8 @@
             'reinforcedGrip', 'titaniumCore', 'meteoriteSwing', 'cosmicShockwave',
             'supernovaTap', 'sahurDrumCrew', 'midnightEchoes', 'nightSkyPatrol',
             'nebulaPulse', 'galacticFactory', 'voidBatSmash', 'omegaTungStrike',
-            'starlightHarvesters', 'multiverseEngine', 'supernovaSlam',
+            'starlightHarvesters', 'multiverseEngine', 'celestialSmash',
+            'eternalEngine', 'supernovaSlam',
             'galacticReactor', 'blackHoleSingularity', 'quantumCollider',
             'sahurOverlord'];
           spendKeys.forEach(function (k) { merged[k] = num(winner, k); });
@@ -10512,6 +10616,25 @@
           // never reset — the merged save keeps the HIGHER count, so
           // a merge can never cost a player a Rebirth they earned.
           merged.rebirths = Math.max(num(local, 'rebirths'), num(snap, 'rebirths'));
+          // The Rebirth skin wipe holds across timelines too. If
+          // the winning snapshot predates a Rebirth the other side
+          // already did (fewer Rebirths, or an older lastRebirthAt
+          // stamp), its unlockedSkins are a pre-wipe picture and
+          // would hand back crate skins the Rebirth removed —
+          // EXOTIC Wizard included. Take the skin list from the
+          // side that rebirthed most recently instead: its
+          // inventory is post-wipe by construction. The merged
+          // save also keeps the freshest wipe stamp, so the guard
+          // survives the apply and rides every later save.
+          var localRbAt = num(local, 'lastRebirthAt');
+          var snapRbAt = num(snap, 'lastRebirthAt');
+          merged.lastRebirthAt = Math.max(localRbAt, snapRbAt);
+          if (num(winner, 'rebirths') < merged.rebirths || num(winner, 'lastRebirthAt') < merged.lastRebirthAt) {
+            var freshSide = num(local, 'rebirths') !== num(snap, 'rebirths')
+              ? (num(local, 'rebirths') > num(snap, 'rebirths') ? local : snap)
+              : (localRbAt >= snapRbAt ? local : snap);
+            merged.unlockedSkins = Array.isArray(freshSide.unlockedSkins) ? freshSide.unlockedSkins.slice() : ['classic'];
+          }
           // Identity stays this device's own — a merged snapshot
           // never renames the player or changes their identity.
           merged.playerId = local.playerId;
@@ -11022,6 +11145,8 @@
             + Math.floor(Number(d.omegaTungStrike) || 0)
             + Math.floor(Number(d.starlightHarvesters) || 0)
             + Math.floor(Number(d.multiverseEngine) || 0)
+            + Math.floor(Number(d.celestialSmash) || 0)
+            + Math.floor(Number(d.eternalEngine) || 0)
             + Math.floor(Number(d.supernovaSlam) || 0)
             + Math.floor(Number(d.galacticReactor) || 0)
             + Math.floor(Number(d.blackHoleSingularity) || 0)
